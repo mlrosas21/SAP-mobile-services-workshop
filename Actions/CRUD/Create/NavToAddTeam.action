@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.Navigation",
+	"ActionResult": {
+		"_Name": "NavToAgregarEquipo"
+	},
+	"PageToOpen": "/nba/Pages/AddTeam.page"
+}

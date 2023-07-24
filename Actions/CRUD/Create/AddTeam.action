@@ -1,0 +1,21 @@
+{
+	"_Type": "Action.Type.ODataService.CreateEntity",
+	"ActionResult": {
+		"_Name": "AddTeamResult"
+	},
+	"OnFailure": "/nba/Actions/CRUD/Create/FailAddTeam.action",
+	"OnSuccess": "/nba/Actions/CRUD/Create/SuccessAddTeam.action",
+	"ShowActivityIndicator": true,
+	"ActivityIndicatorText": "",
+	"Target": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "EquipoSet"
+	},
+	"Properties": {
+		"NombreEquipo": "#Page:AgregarEquipo/#Control:InputName/#Value",
+		"Ciudad": "#Page:AgregarEquipo/#Control:InputCity/#Value",
+		"Estado": "#Page:AgregarEquipo/#Control:SelectState/#SelectedValue",
+		"Entrenador": "#Page:AgregarEquipo/#Control:InputCoach/#Value",
+		"Logo": "#Page:AgregarEquipo/#Control:InputImage/#Value"
+	}
+}

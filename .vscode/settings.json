@@ -6,6 +6,13 @@
         },
         "right": {
             "visible": true
-        }
+        },
+        "device": "tablet"
+    },
+    "mdk.favoritesTemplates": {
+        "templates": [
+            "mde.action.odata",
+            "mde.action.checkrequiredfields"
+        ]
     }
 }

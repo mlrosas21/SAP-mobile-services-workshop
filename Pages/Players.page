@@ -1,0 +1,48 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"_Type": "Section.Type.ContactCell",
+					"Target": {
+						"Service": "/nba/Services/NBA.service",
+						"EntitySet": "JugadorSet"
+					},
+					"_Name": "SectionContactCell0",
+					"Visible": true,
+					"EmptySection": {
+						"FooterVisible": false
+					},
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": false,
+						"PageSize": 50
+					},
+					"ContactCell": {
+						"ContextMenu": {
+							"PerformFirstActionWithFullSwipe": true,
+							"Items": []
+						},
+						"DetailImage": "",
+						"Headline": "{Apellido}, {Nombre}",
+						"Subheadline": "{NombreEquipo}",
+						"Description": "Dorsal: {Dorsal} Posición: {Posicion}",
+						"ActivityItems": []
+					}
+				}
+			]
+		}
+	],
+	"_Type": "Page",
+	"_Name": "Players",
+	"Caption": "Players",
+	"PrefersLargeCaption": true
+}

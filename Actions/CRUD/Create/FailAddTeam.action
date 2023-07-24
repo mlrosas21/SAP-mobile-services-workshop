@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "FailAddTeam"
+	},
+	"Message": "Error: {#ActionResults:AddTeamResult/error}"
+}

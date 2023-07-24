@@ -1,14 +1,48 @@
 {
-	"_Type": "Page",
-	"_Name": "Main",
 	"Controls": [
 		{
-			"StartColumn": {
-				"_Name": "StartColumn"
+			"Header": {
+				"Headline": "NBA",
+				"Icon": "/nba/Images/nba-logo.png",
+				"Alignment": "left",
+				"IconIsCircular": false,
+				"DisableIconText": false
 			},
-			"_Name": "FlexibleColumnLayout0",
-			"_Type": "Control.Type.FlexibleColumnLayout"
+			"Sections": [
+				{
+					"_Name": "SideDrawerSection0",
+					"Items": [
+						{
+							"Title": "Equipos",
+							"Image": "sap-icon://family-care",
+							"PageToOpen": "/nba/Pages/Teams.page",
+							"_Name": "SideDrawerSection0Item0",
+							"Visible": true,
+							"TextAlignment": "left",
+							"Styles": {}
+						},
+						{
+							"Title": "Jugadores",
+							"Image": "sap-icon://person-placeholder",
+							"PageToOpen": "/nba/Pages/Players.page",
+							"_Name": "SideDrawerSection0Item1",
+							"Visible": true,
+							"TextAlignment": "left",
+							"Styles": {}
+						}
+					],
+					"Visible": true,
+					"PreserveImageSpacing": true,
+					"SeparatorEnabled": true
+				}
+			],
+			"_Type": "Control.Type.SideDrawer",
+			"_Name": "SideDrawer0",
+			"AlwaysShowDrawerButton": false,
+			"ClearHistory": false
 		}
 	],
+	"_Type": "Page",
+	"_Name": "Main",
 	"Caption": "Main"
 }

@@ -12,16 +12,19 @@
 		"Deploy": {
 			"Description": "",
 			"WebClient": {
-				"Runtime": "",
-				"URL": ""
+				"Runtime": "production",
+				"URL": "https://mdk-webclient-runtime.cfapps.us10.hana.ondemand.com/runtime/"
 			},
 			"Destination": [
 				{
-					"CF": "",
+					"CF": "NBA",
 					"MDK": "NBA",
 					"URL": ""
 				}
-			]
+			],
+			"Name": "ns.nba",
+			"Version": "1.0.0",
+			"AppRouter": "standalone"
 		}
 	},
 	"MobileService": {
@@ -44,5 +47,10 @@
 			"id": "html5moduletemplates.basicSAPUI5ApplicationProjectModule",
 			"version": "1.40.12"
 		}
+	},
+	"Build": {
+		"SourceMap": false,
+		"TSTarget": "es6",
+		"WMF": true
 	}
 }

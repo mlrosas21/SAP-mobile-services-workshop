@@ -1,0 +1,93 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"_Type": "Section.Type.ObjectTable",
+					"Target": {
+						"Service": "/nba/Services/NBA.service",
+						"EntitySet": "EquipoSet"
+					},
+					"_Name": "SectionObjectTable0",
+					"Visible": true,
+					"EmptySection": {
+						"FooterVisible": false
+					},
+					"ObjectCell": {
+						"ContextMenu": {
+							"Items": [],
+							"PerformFirstActionWithFullSwipe": true
+						},
+						"Title": "{NombreEquipo}",
+						"Subhead": "{Ciudad}",
+						"Description": "Entrenador: {Entrenador}",
+						"DisplayDescriptionInMobile": true,
+						"PreserveIconStackSpacing": true,
+						"AccessoryType": "detailButton",
+						"ProgressIndicator": "inProgress",
+						"Tags": [
+							{
+								"Color": "Grey",
+								"Text": "{Estado}"
+							}
+						],
+						"AvatarStack": {
+							"Avatars": [
+								{
+									"Image": "{Logo}"
+								}
+							],
+							"ImageIsCircular": false,
+							"ImageHasBorder": false,
+							"OverflowToGrid": {
+								"ImageIsCircular": ""
+							}
+						},
+						"AvatarGrid": {
+							"Avatars": [],
+							"ImageIsCircular": true
+						},
+						"Selected": false
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": false,
+						"PageSize": 50
+					},
+					"HighlightSelectedItem": false,
+					"Selection": {
+						"ExitOnLastDeselect": true,
+						"LongPressToEnable": "None",
+						"Mode": "None"
+					}
+				}
+			]
+		}
+	],
+	"_Type": "Page",
+	"_Name": "Teams",
+	"Caption": "Equipos",
+	"PrefersLargeCaption": true,
+	"ActionBar": {
+		"Items": [
+			{
+				"_Name": "ActionBarItem0",
+				"Caption": "Add",
+				"Icon": "sap-icon://add",
+				"Position": "Right",
+				"IsIconCircular": false,
+				"Visible": true,
+				"OnPress": "/nba/Actions/CRUD/Create/NavToAddTeam.action"
+			}
+		],
+		"_Name": "ActionBar1"
+	}
+}
