@@ -1,0 +1,14 @@
+{
+	"_Type": "Page",
+	"_Name": "Main",
+	"Controls": [
+		{
+			"StartColumn": {
+				"_Name": "StartColumn"
+			},
+			"_Name": "FlexibleColumnLayout0",
+			"_Type": "Control.Type.FlexibleColumnLayout"
+		}
+	],
+	"Caption": "Main"
+}

@@ -1,0 +1,48 @@
+{
+	"Credential": "cf",
+	"Template": {
+		"Id": "@ext-mdkvsc-npm-dev/generator-mdk",
+		"Name": "Base",
+		"Version": "0.0.1"
+	},
+	"CF": {
+		"Target": "https://api.cf.us10-001.hana.ondemand.com",
+		"Organization": "9b2e96a2-fe6c-43a5-8aa6-622564ce6a59",
+		"Space": "af1e7099-4066-4445-ac29-ed7c98ffffaf",
+		"Deploy": {
+			"Description": "",
+			"WebClient": {
+				"Runtime": "",
+				"URL": ""
+			},
+			"Destination": [
+				{
+					"CF": "",
+					"MDK": "NBA",
+					"URL": ""
+				}
+			]
+		}
+	},
+	"MobileService": {
+		"Type": "standard",
+		"AdminAPI": "https://mobile-service-cockpit-api.cfapps.us10.hana.ondemand.com/cockpit/v1/org/9b2e96a2-fe6c-43a5-8aa6-622564ce6a59/space/af1e7099-4066-4445-ac29-ed7c98ffffaf",
+		"AppId": "workshop.mdk",
+		"Destination": [
+			"NBA"
+		]
+	},
+	"Onboarding": {
+		"Schema": "sapmobilesvcs",
+		"TimeZone": "UTC",
+		"URL": "sapmobilesvcs://?AppId=workshop.mdk&ClientId=8677a070-1ac2-4300-a4c2-7ec5fd816e4b&ServerUrl=https://edab35dbtrial-dev-workshop-mdk.cfapps.us10-001.hana.ondemand.com&SapCloudPlatformEndpoint=https://edab35dbtrial-dev-workshop-mdk.cfapps.us10-001.hana.ondemand.com&AuthorizationEndpointUrl=https://edab35dbtrial-dev-workshop-mdk.cfapps.us10-001.hana.ondemand.com/oauth2/api/v1/authorize&RedirectUrl=https://edab35dbtrial-dev-workshop-mdk.cfapps.us10-001.hana.ondemand.com&TokenUrl=https://edab35dbtrial-dev-workshop-mdk.cfapps.us10-001.hana.ondemand.com/oauth2/api/v1/token&multiUser=false"
+	},
+	"LCAP": {
+		"FullName": "",
+		"Service": [],
+		"sourceTemplate": {
+			"id": "html5moduletemplates.basicSAPUI5ApplicationProjectModule",
+			"version": "1.40.12"
+		}
+	}
+}

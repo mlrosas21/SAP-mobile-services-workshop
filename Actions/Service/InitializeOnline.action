@@ -1,0 +1,10 @@
+{
+    "Service": "/nba/Services/NBA.service",
+    "_Type": "Action.Type.ODataService.Initialize",
+    "ShowActivityIndicator": true,
+    "OnSuccess": "/nba/Actions/Service/InitializeOnlineSuccessMessage.action",
+    "OnFailure": "/nba/Actions/Service/InitializeOnlineFailureMessage.action",
+    "ActionResult": {
+        "_Name": "init"
+    }
+}
