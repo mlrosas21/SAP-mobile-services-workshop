@@ -1,0 +1,11 @@
+{
+	"_Type": "Action.Type.Navigation",
+	"ActionResult": {
+		"_Name": "NavToAddMatchStats"
+	},
+	"PageToOpen": "/nba/Pages/AddMatchStats.page",
+	"ModalPage": true,
+	"Transition": {
+		"Curve": "EaseOut"
+	}
+}

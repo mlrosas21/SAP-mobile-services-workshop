@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "FailCheckRequiredFields"
+	},
+	"Message": "Por favor, complete los campos obligatorios"
+}

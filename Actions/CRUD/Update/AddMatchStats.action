@@ -1,0 +1,15 @@
+{
+	"_Type": "Action.Type.ODataService.CallFunction",
+	"ActionResult": {
+		"_Name": "AddMatchStats"
+	},
+	"Target": {
+		"Service": "/nba/Services/NBA.service",
+		"Function": {
+			"Name": "AgregarDatosPartido",
+			"Parameters": {
+				"Jugador": "/nba/Rules/AddMatchStats.js"
+			}
+		}
+	}
+}

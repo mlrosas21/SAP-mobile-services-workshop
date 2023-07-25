@@ -1,0 +1,80 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"ObjectHeader": {
+						"Subhead": "{EstadoDesc}",
+						"DetailImage": "{Logo}",
+						"DetailImageIsCircular": false,
+						"BodyText": "{Entrenador}",
+						"HeadlineText": "{NombreEquipo}",
+						"StatusPosition": "Stacked",
+						"StatusImagePosition": "Leading",
+						"SubstatusImagePosition": "Leading"
+					},
+					"_Type": "Section.Type.ObjectHeader",
+					"_Name": "SectionObjectHeader0",
+					"Visible": true
+				},
+				{
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"_Type": "Section.Type.ObjectCardCollection",
+					"Target": {
+						"Service": "/nba/Services/NBA.service",
+						"EntitySet": "{@odata.readLink}/To_Jugadores"
+					},
+					"_Name": "SectionObjectCardCollection1",
+					"Visible": true,
+					"EmptySection": {
+						"FooterVisible": false
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": false,
+						"PageSize": 50
+					},
+					"Card": {
+						"Visible": true,
+						"Title": "{Apellido}, {Nombre}",
+						"Subhead": "Dorsal #{Dorsal}",
+						"Footnote": "{PosicionDesc}",
+						"DetailImage": "sap-icon://person-placeholder",
+						"DetailImageIsCircular": false,
+						"OverflowButtons": [],
+						"PrimaryAction": {
+							"OnPress": "/nba/Actions/NavToPlayerDetail.action",
+							"Style": "",
+							"Title": "Ver info",
+							"Visible": true
+						},
+						"SecondaryAction": {
+							"Style": "",
+							"Title": "",
+							"Visible": false
+						},
+						"_Type": "Control.Type.ObjectCard"
+					},
+					"Layout": {
+						"LayoutType": "Vertical"
+					}
+				}
+			]
+		}
+	],
+	"DesignTimeTarget": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "EquipoSet"
+	},
+	"_Type": "Page",
+	"_Name": "DetailTeam",
+	"Caption": "Detalle de equipo",
+	"PrefersLargeCaption": true
+}

@@ -1,0 +1,11 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "ConfirmDelete"
+	},
+	"Message": "¿Está seguro que desea borrar el equipo?",
+	"Title": "Confirmación",
+	"OKCaption": "Sí",
+	"OnOK": "/nba/Actions/CRUD/Delete/DeleteTeam.action",
+	"CancelCaption": "No"
+}

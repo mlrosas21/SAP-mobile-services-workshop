@@ -1,0 +1,120 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"KPIHeader": {
+						"KPIItems": [
+							{
+								"_Name": "KPIItem6",
+								"CaptionLabel": "Partidos jugados",
+								"MetricItems": [
+									{
+										"Value": "{PartidosJugados}",
+										"_Name": "KPIItem6MetricItem0"
+									}
+								],
+								"ShowProgress": false
+							}
+						]
+					},
+					"_Type": "Section.Type.KPIHeader",
+					"_Name": "SectionKPIHeader0",
+					"Visible": true
+				},
+				{
+					"_Type": "Section.Type.KPISection",
+					"_Name": "StatsContainer",
+					"Visible": true,
+					"KPIItems": [
+						{
+							"_Name": "KPIItem0",
+							"CaptionLabel": "PPG",
+							"MetricItems": [
+								{
+									"Value": "{PPG}",
+									"_Name": "KPIItem0MetricItem0"
+								}
+							],
+							"ShowProgress": false
+						},
+						{
+							"_Name": "KPIItem2",
+							"CaptionLabel": "DPG",
+							"MetricItems": [
+								{
+									"Value": "{DPG}",
+									"_Name": "KPIItem2MetricItem0"
+								}
+							]
+						}
+					]
+				},
+				{
+					"_Type": "Section.Type.KPISection",
+					"_Name": "StatsContainer ",
+					"Visible": true,
+					"KPIItems": [
+						{
+							"_Name": "KPIItem3",
+							"CaptionLabel": "TPG",
+							"MetricItems": [
+								{
+									"Value": "{TPG}",
+									"_Name": "KPIItem3MetricItem0"
+								}
+							]
+						},
+						{
+							"_Name": "KPIItem1",
+							"CaptionLabel": "APG",
+							"MetricItems": [
+								{
+									"Value": "{APG}",
+									"_Name": "KPIItem1MetricItem0"
+								}
+							]
+						}
+					]
+				},
+				{
+					"_Type": "Section.Type.KPISection",
+					"_Name": "StatsContainer  ",
+					"Visible": true,
+					"KPIItems": [
+						{
+							"_Name": "KPIItem5",
+							"CaptionLabel": "RPG",
+							"MetricItems": [
+								{
+									"Value": "{RPG}",
+									"_Name": "KPIItem5MetricItem0"
+								}
+							]
+						},
+						{
+							"_Name": "KPIItem4",
+							"CaptionLabel": "MPG",
+							"MetricItems": [
+								{
+									"Value": "{MPG}",
+									"_Name": "KPIItem4MetricItem0"
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+	],
+	"DesignTimeTarget": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "JugadorSet"
+	},
+	"_Type": "Page",
+	"_Name": "DetailStatsPlayer",
+	"Caption": "Estadísticas",
+	"PrefersLargeCaption": true
+}

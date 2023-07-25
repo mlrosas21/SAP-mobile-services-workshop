@@ -1,0 +1,13 @@
+{
+	"_Type": "Action.Type.CheckRequiredFields",
+	"ActionResult": {
+		"_Name": "CheckRequiredFieldsResult"
+	},
+	"OnFailure": "/nba/Actions/CRUD/Create/FailCheckRequiredFields.action",
+	"OnSuccess": "/nba/Actions/CRUD/Create/AddTeam.action",
+	"RequiredFields": [
+		"InputName",
+		"InputCity",
+		"InputCoach"
+	]
+}

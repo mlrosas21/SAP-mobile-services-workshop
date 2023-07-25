@@ -31,7 +31,7 @@
 						"Subhead": "{Ciudad}",
 						"Description": "Entrenador: {Entrenador}",
 						"DisplayDescriptionInMobile": true,
-						"PreserveIconStackSpacing": true,
+						"PreserveIconStackSpacing": false,
 						"AccessoryType": "detailButton",
 						"ProgressIndicator": "inProgress",
 						"Tags": [
@@ -47,15 +47,14 @@
 								}
 							],
 							"ImageIsCircular": false,
-							"ImageHasBorder": false,
-							"OverflowToGrid": {
-								"ImageIsCircular": ""
-							}
+							"ImageHasBorder": false
 						},
 						"AvatarGrid": {
 							"Avatars": [],
 							"ImageIsCircular": true
 						},
+						"OnPress": "/nba/Actions/Navigation/NavToDetail.action",
+						"OnAccessoryButtonPress": "/nba/Actions/MenuTeam.action",
 						"Selected": false
 					},
 					"DataPaging": {

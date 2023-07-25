@@ -4,7 +4,10 @@
  */
 export default function LoadImage(clientAPI) {
     try{
-        return clientAPI.evaluateTargetPath("#Page:AgregarEquipo/#Control:InputImage/#Value")
+        const sUrl = clientAPI.evaluateTargetPath("#Page:AgregarEquipo/#Control:InputImage")
+        const oImage = clientAPI.evaluateTargetPath("#Page:AgregarEquipo/#Control:RenderImage")
+
+        oImage.Image = sUrl.getValue()
     } catch(err) {
         alert(err)
     }

@@ -1,0 +1,16 @@
+{
+	"_Type": "Action.Type.PopoverMenu",
+	"ActionResult": {
+		"_Name": "MenuTeam"
+	},
+	"PopoverItems": [
+		{
+			"Title": "Borrar equipo",
+			"Icon": "sap-icon://delete",
+			"Style": "",
+			"OnPress": "/nba/Actions/CRUD/Delete/ConfirmDelete.action",
+			"Visible": true,
+			"Enabled": true
+		}
+	]
+}

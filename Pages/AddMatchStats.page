@@ -1,0 +1,25 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0"
+		}
+	],
+	"_Type": "Page",
+	"_Name": "AddMatchStats",
+	"Caption": "Agregar datos de partido",
+	"PrefersLargeCaption": true,
+	"ToolBar": {
+		"Items": [
+			{
+				"_Type": "Control.Type.ToolbarItem",
+				"_Name": "AddMatchStats",
+				"Caption": "Agregar",
+				"Enabled": true,
+				"Visible": true,
+				"Clickable": true,
+				"Style": ""
+			}
+		]
+	}
+}

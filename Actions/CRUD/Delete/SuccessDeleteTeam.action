@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "SuccessDeleteTeam"
+	},
+	"Message": "Equipo {NombreEquipo} eliminado exitosamente"
+}

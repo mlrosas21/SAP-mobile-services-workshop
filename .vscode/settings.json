@@ -2,12 +2,11 @@
     "mdk.uieditor": {
         "left": {
             "visible": true,
-            "width": 247
+            "width": 280
         },
         "right": {
             "visible": true
-        },
-        "device": "tablet"
+        }
     },
     "mdk.favoritesTemplates": {
         "templates": [

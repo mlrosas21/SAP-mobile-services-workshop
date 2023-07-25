@@ -1,0 +1,13 @@
+{
+	"_Type": "Action.Type.ODataService.DeleteEntity",
+	"ActionResult": {
+		"_Name": "DeleteTeamResult"
+	},
+	"OnFailure": "/nba/Actions/CRUD/Delete/FailDeleteTeam.action",
+	"OnSuccess": "/nba/Actions/CRUD/Delete/SuccessDeleteTeam.action",
+	"Target": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "EquipoSet",
+		"ReadLink": "{@odata.readLink}"
+	}
+}

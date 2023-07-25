@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.Navigation",
+	"ActionResult": {
+		"_Name": "NavToDetail"
+	},
+	"PageToOpen": "/nba/Pages/DetailTeam.page"
+}
