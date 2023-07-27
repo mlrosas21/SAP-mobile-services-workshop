@@ -1,0 +1,11 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "ConfirmEdit"
+	},
+	"Message": "¿Desea editar la información equipo?",
+	"Title": "Confirmación",
+	"OKCaption": "Sí",
+	"OnOK": "/nba/Actions/CRUD/Update/UpdateTeam.action",
+	"CancelCaption": "No"
+}

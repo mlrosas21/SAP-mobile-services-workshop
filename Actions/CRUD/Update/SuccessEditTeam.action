@@ -1,9 +1,9 @@
 {
 	"_Type": "Action.Type.Message",
 	"ActionResult": {
-		"_Name": "SuccessAddTeam"
+		"_Name": "SuccessEditTeam"
 	},
-	"Message": "Equipo agregado exitosamente",
+	"Message": "Equipo {NombreEquipo} editado exitosamente",
 	"OKCaption": "OK",
 	"OnOK": "/nba/Actions/ClosePage.action"
 }

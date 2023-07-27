@@ -1,0 +1,101 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"_Type": "Section.Type.ObjectHeader",
+					"_Name": "SectionObjectHeader0",
+					"ObjectHeader": {
+						"Subhead": "{Ciudad} ({EstadoDesc})",
+						"StatusText": "{Estado}",
+						"DetailImage": "{Logo}",
+						"DetailImageIsCircular": false,
+						"HeadlineText": "{NombreEquipo}",
+						"StatusPosition": "Stacked",
+						"StatusImagePosition": "Leading",
+						"SubstatusImagePosition": "Leading"
+					},
+					"Visible": true
+				},
+				{
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"Controls": [
+						{
+							"Value": "{Entrenador}",
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCEntrenador",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Entrenador",
+							"PlaceHolder": "PlaceHolder",
+							"Enabled": true
+						},
+						{
+							"Value": "{Logo}",
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCLogo",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "URL de Logo",
+							"PlaceHolder": "PlaceHolder",
+							"Enabled": true
+						}
+					],
+					"Visible": true,
+					"EmptySection": {
+						"FooterVisible": false
+					},
+					"_Type": "Section.Type.FormCell",
+					"_Name": "SectionFormCell0"
+				}
+			]
+		}
+	],
+	"_Type": "Page",
+	"_Name": "EditTeam",
+	"Caption": "Información",
+	"PrefersLargeCaption": true,
+	"ActionBar": {
+		"Items": [
+			{
+				"_Name": "ActionBarItem0",
+				"Caption": "Item",
+				"SystemItem": "Cancel",
+				"Position": "Left",
+				"IsIconCircular": false,
+				"Visible": true,
+				"OnPress": "/nba/Actions/ClosePage.action"
+			}
+		],
+		"_Name": "ActionBar1"
+	},
+	"ToolBar": {
+		"Items": [
+			{
+				"_Type": "Control.Type.ToolbarItem",
+				"_Name": "ToolbarItem0",
+				"Caption": "ToolbarItem",
+				"Enabled": true,
+				"Visible": true,
+				"Clickable": true,
+				"SystemItem": "Save",
+				"Style": "",
+				"OnPress": "/nba/Actions/CRUD/Update/ConfirmEdit.action"
+			}
+		]
+	},
+	"DesignTimeTarget": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "EquipoSet"
+	}
+}

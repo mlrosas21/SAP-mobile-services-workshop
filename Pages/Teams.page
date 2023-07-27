@@ -33,6 +33,7 @@
 						"DisplayDescriptionInMobile": true,
 						"PreserveIconStackSpacing": false,
 						"AccessoryType": "detailButton",
+						"AccessoryButtonIcon": "sap-icon://show-edit",
 						"ProgressIndicator": "inProgress",
 						"Tags": [
 							{

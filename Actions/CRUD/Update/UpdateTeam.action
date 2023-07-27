@@ -1,0 +1,17 @@
+{
+	"_Type": "Action.Type.ODataService.UpdateEntity",
+	"ActionResult": {
+		"_Name": "UpdateTeamResult"
+	},
+	"OnFailure": "/nba/Actions/CRUD/Update/FailEditTeam.action",
+	"OnSuccess": "/nba/Actions/CRUD/Update/SuccessEditTeam.action",
+	"Target": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "EquipoSet",
+		"ReadLink": "{@odata.readLink}"
+	},
+	"Properties": {
+		"Entrenador": "#Page:EditTeam/#Control:FCEntrenador/#Value",
+		"Logo": "#Page:EditTeam/#Control:FCLogo/#Value"
+	}
+}

@@ -153,24 +153,6 @@
 					},
 					"_Type": "Section.Type.FormCell",
 					"_Name": "SectionFormCell1"
-				},
-				{
-					"_Type": "Section.Type.Image",
-					"_Name": "RenderImage",
-					"Visible": true,
-					"EmptySection": {
-						"FooterVisible": false
-					},
-					"Separators": {
-						"TopSectionSeparator": false,
-						"BottomSectionSeparator": true,
-						"HeaderSeparator": true,
-						"FooterSeparator": true,
-						"ControlSeparator": true
-					},
-					"Image": "",
-					"Alignment": "Center",
-					"ContentMode": "ScaleAspectFit"
 				}
 			]
 		}

@@ -3,7 +3,7 @@
 	"ActionResult": {
 		"_Name": "ConfirmDelete"
 	},
-	"Message": "¿Está seguro que desea borrar el equipo?",
+	"Message": "¿Está seguro que desea borrar el equipo {NombreEquipo}?",
 	"Title": "Confirmación",
 	"OKCaption": "Sí",
 	"OnOK": "/nba/Actions/CRUD/Delete/DeleteTeam.action",
