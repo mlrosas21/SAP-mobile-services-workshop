@@ -29,6 +29,24 @@
 							"Visible": true,
 							"TextAlignment": "left",
 							"Styles": {}
+						},
+						{
+							"Title": "Sincronizar",
+							"Image": "sap-icon://synchronize",
+							"OnPress": "/nba/Actions/Sincronizar.action",
+							"_Name": "SideDrawerSection0Item2",
+							"Visible": true,
+							"TextAlignment": "left",
+							"Styles": {}
+						},
+						{
+							"Title": "Logout",
+							"Image": "sap-icon://log",
+							"OnPress": "/nba/Actions/LogoutMessage.action",
+							"_Name": "SideDrawerSection0Item3",
+							"Visible": true,
+							"TextAlignment": "left",
+							"Styles": {}
 						}
 					],
 					"Visible": true,

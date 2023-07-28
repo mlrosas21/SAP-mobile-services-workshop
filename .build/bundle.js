@@ -27,7 +27,50 @@ __webpack_require__.r(__webpack_exports__);
  * @param {IClientAPI} clientAPI
  */
 function AddMatchStats(clientAPI) {
-  // const oData = clientAPI.binding
+  const iMinutos = clientAPI.evaluateTargetPath('#Page:AddMathStats/#Control:FCMinutos').getValue();
+  const iTirosLibres = clientAPI.evaluateTargetPath('#Page:AddMathStats/#Control:FCTirosLibres').getValue();
+  const iDobles = clientAPI.evaluateTargetPath('#Page:AddMathStats/#Control:FCDobles').getValue();
+  const iTriples = clientAPI.evaluateTargetPath('#Page:AddMathStats/#Control:FCTriples').getValue();
+  const iAsistencias = clientAPI.evaluateTargetPath('#Page:AddMathStats/#Control:FCAsistencias').getValue();
+  const iRebotes = clientAPI.evaluateTargetPath('#Page:AddMathStats/#Control:FCRebotes').getValue();
+  let obj = {
+    Puntos: iTirosLibres + iDobles * 2 + iTriples * 3,
+    Minutos: iMinutos,
+    Dobles: iDobles,
+    Triples: iTirosLibres,
+    Asistencias: iAsistencias,
+    Rebotes: iRebotes
+  };
+  const oJugador = JSON.stringify(obj);
+  return oJugador;
+}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Rules/AddPlayer.js":
+/*!**************************************************!*\
+  !*** ./build.definitions/nba/Rules/AddPlayer.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AddPlayer)
+/* harmony export */ });
+/**
+ * Describe this function...
+ * @param {IClientAPI} clientAPI
+ */
+function AddPlayer(clientAPI) {
+  try {
+    const sEquipo = clientAPI.binding.NombreEquipo;
+    clientAPI.executeAction('/nba/Actions/NavToAddPlayer.action');
+    const oClientData = clientAPI.evaluateTargetPathForAPI('#Page:DetailTeam').getClientData();
+    oClientData.NombreEquipo = sEquipo;
+  } catch (error) {
+    alert(error);
+  }
 }
 
 /***/ }),
@@ -144,6 +187,52 @@ function AppUpdateSuccess(clientAPI) {
 
 /***/ }),
 
+/***/ "./build.definitions/nba/Rules/CheckPlayerData.js":
+/*!********************************************************!*\
+  !*** ./build.definitions/nba/Rules/CheckPlayerData.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CheckPlayerData)
+/* harmony export */ });
+/**
+ * Describe this function...
+ * @param {IClientAPI} clientAPI
+ */
+function CheckPlayerData(clientAPI) {
+  try {
+    const dFechaNacimiento = clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:DPFechaNacimiento').getValue();
+    const iDorsal = clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:FCDorsal').getValue();
+    const iPeso = parseInt(clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:FCPeso').getValue());
+
+    // check fecha nacimiento
+    const formattedFechaNac = new Date(dFechaNacimiento);
+    const now = new Date();
+    const eighteenYearsAgo = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
+    if (formattedFechaNac < eighteenYearsAgo) {
+      // The player is under 18 years old
+      clientAPI.executeAction('/nba/Actions/ErrorFechaNacimiento.action');
+      return;
+    }
+    if (iDorsal > 99) {
+      clientAPI.executeAction('/nba/Actions/ErrorDorsal.action');
+      return;
+    }
+    if (iPeso > 200) {
+      clientAPI.executeAction('/nba/Actions/ErrorPeso.action');
+      return;
+    }
+    clientAPI.executeAction('/nba/Actions/ConfirmAddPlayer.action');
+  } catch (error) {
+    alert(error);
+  }
+}
+
+/***/ }),
+
 /***/ "./build.definitions/nba/Rules/LoadImage.js":
 /*!**************************************************!*\
   !*** ./build.definitions/nba/Rules/LoadImage.js ***!
@@ -198,34 +287,6 @@ function OnWillUpdate(clientAPI) {
 
 /***/ }),
 
-/***/ "./build.definitions/nba/Rules/RenderImage.js":
-/*!****************************************************!*\
-  !*** ./build.definitions/nba/Rules/RenderImage.js ***!
-  \****************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ RenderImage)
-/* harmony export */ });
-/**
- * Describe this function...
- * @param {IClientAPI} clientAPI
- */
-function RenderImage(context) {
-  try {
-    const sValue = context.getValue();
-    let oClientData = context.evaluateTargetPathForAPI('#Page:AgregarEquipo').getClientData();
-    clientAPI.evaluateTargetPath("#Page:AgregarEquipo/#Control:RenderImage");
-    oClientData.Image = sValue;
-  } catch (error) {
-    alert(error);
-  }
-}
-
-/***/ }),
-
 /***/ "./build.definitions/nba/Rules/ResetAppSettingsAndLogout.js":
 /*!******************************************************************!*\
   !*** ./build.definitions/nba/Rules/ResetAppSettingsAndLogout.js ***!
@@ -260,6 +321,28 @@ function ResetAppSettingsAndLogout(context) {
     // Logout 
     return context.getPageProxy().executeAction('/nba/Actions/Logout.action');
   }
+}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Rules/SuccessAddPlayer.js":
+/*!*********************************************************!*\
+  !*** ./build.definitions/nba/Rules/SuccessAddPlayer.js ***!
+  \*********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SuccessAddPlayer)
+/* harmony export */ });
+/**
+ * Describe this function...
+ * @param {IClientAPI} clientAPI
+ */
+function SuccessAddPlayer(clientAPI) {
+  clientAPI.executeAction('/nba/Actions/ClosePage.action');
+  clientAPI.evaluateTargetPathForAPI('#Page:DetailTeam/#Control:PlayerCollection').redraw();
 }
 
 /***/ }),
@@ -452,7 +535,17 @@ module.exports = function (i) {
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0"}],"_Type":"Page","_Name":"AddMatchStats","Caption":"Agregar datos de partido","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"AddMatchStats","Caption":"Agregar","Enabled":true,"Visible":true,"Clickable":true,"Style":""}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{Minutos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCMinutos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Minutos","KeyboardType":"Number","Enabled":true},{"Value":"{Puntos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPuntos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Puntos","KeyboardType":"Number","Enabled":true},{"Value":"{Dobles}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDobles","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dobles","KeyboardType":"Number","Enabled":true},{"Value":"{Triples}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCTriples","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Triples","KeyboardType":"Number","Enabled":true},{"Value":"{Asistencias}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCAsistencias","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Asistencias","KeyboardType":"Number","Enabled":true},{"Value":"{Rebotes}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCRebotes","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Rebotes","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"AddMatchStats","Caption":"Agregar datos de partido","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"AddMatchStats","Caption":"Agregar","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Actions/CRUD/Update/AddMatchStats.action"}]}}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Pages/AddPlayer.page":
+/*!****************************************************!*\
+  !*** ./build.definitions/nba/Pages/AddPlayer.page ***!
+  \****************************************************/
+/***/ ((module) => {
+
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDorsal","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dorsal","KeyboardType":"Number","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCNombre","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Nombre","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCApellido","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Apellido","Enabled":true},{"_Type":"Control.Type.FormCell.ListPicker","_Name":"LPNacionalidad","IsEditable":true,"IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Nacionalidad","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":false,"IsSearchCancelledAfterSelection":false,"AllowDefaultValueIfOneItem":false,"PickerItems":["Estados Unidos","Canada","Argentina","Francia","Grecia"]},{"_Type":"Control.Type.FormCell.DatePicker","_Name":"DPFechaNacimiento","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Fecha de nacimiento","Mode":"Date"},{"_Type":"Control.Type.FormCell.SegmentedControl","_Name":"FCPosicion","IsEditable":true,"IsVisible":true,"Separator":true,"ApportionsSegmentWidthsByContent":false,"Segments":{"Target":{"Service":"/nba/Services/NBA.service","EntitySet":"PosicionBaskSet"},"DisplayValue":"{DescPosicion}","ReturnValue":"{CodPosicion}"}},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPeso","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Peso (kg)","PlaceHolder":"Ingrese el peso en kilogramos","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"_Type":"Page","_Name":"AddPlayer","Caption":"Agregar Jugador","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Agregar","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","ItemType":"Button","Style":"","OnPress":"/nba/Actions/CheckFieldsAddPlayer.action"}]}}
 
 /***/ }),
 
@@ -462,7 +555,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputName","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Nombre","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputCity","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Ciudad","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell2"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.ListPicker","_Name":"SelectState","IsEditable":true,"IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Estado","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":false,"IsSearchCancelledAfterSelection":false,"AllowDefaultValueIfOneItem":false,"PickerItems":{"Target":{"Service":"/nba/Services/NBA.service","EntitySet":"EstadoUsaSet"},"DisplayValue":"{DescEstado} ({CodEstado})","ReturnValue":"{CodEstado}"}}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell3"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputCoach","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Entrenador","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell4"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputImage","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"URL de Logo","OnValueChange":"/nba/Rules/RenderImage.js","KeyboardType":"Url","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell1"}]}],"_Type":"Page","_Name":"AgregarEquipo","Caption":"Agregar equipo","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"Save","Caption":"Guardar","Enabled":true,"Visible":true,"Clickable":true,"ItemType":"Button","Width":100,"Style":"","OnPress":"/nba/Actions/CRUD/Create/CheckRequiredFields.action"},{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Cancelar","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Actions/Close.action"}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputName","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Nombre","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputCity","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Ciudad","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell2"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.ListPicker","_Name":"SelectState","IsEditable":true,"IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Estado","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":false,"IsSearchCancelledAfterSelection":false,"AllowDefaultValueIfOneItem":false,"PickerItems":{"Target":{"Service":"/nba/Services/NBA.service","EntitySet":"EstadoUsaSet"},"DisplayValue":"{DescEstado} ({CodEstado})","ReturnValue":"{CodEstado}"}}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell3"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputCoach","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Entrenador","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell4"},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"InputImage","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"URL de Logo","KeyboardType":"Url","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell1"}]}],"_Type":"Page","_Name":"AgregarEquipo","Caption":"Agregar equipo","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"Save","Caption":"Guardar","Enabled":true,"Visible":true,"Clickable":true,"ItemType":"Button","Width":100,"Style":"","OnPress":"/nba/Actions/CRUD/Create/CheckRequiredFields.action"},{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Cancelar","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Actions/Close.action"}]}}
 
 /***/ }),
 
@@ -492,7 +585,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"KPIHeader":{"KPIItems":[{"_Name":"KPIItem6","CaptionLabel":"Partidos jugados","MetricItems":[{"Value":"{PartidosJugados}","_Name":"KPIItem6MetricItem0"}],"ShowProgress":false}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer","Visible":true,"KPIItems":[{"_Name":"KPIItem0","CaptionLabel":"PPG","MetricItems":[{"Value":"{PPG}","_Name":"KPIItem0MetricItem0"}],"ShowProgress":false},{"_Name":"KPIItem2","CaptionLabel":"DPG","MetricItems":[{"Value":"{DPG}","_Name":"KPIItem2MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer ","Visible":true,"KPIItems":[{"_Name":"KPIItem3","CaptionLabel":"TPG","MetricItems":[{"Value":"{TPG}","_Name":"KPIItem3MetricItem0"}]},{"_Name":"KPIItem1","CaptionLabel":"APG","MetricItems":[{"Value":"{APG}","_Name":"KPIItem1MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer  ","Visible":true,"KPIItems":[{"_Name":"KPIItem5","CaptionLabel":"RPG","MetricItems":[{"Value":"{RPG}","_Name":"KPIItem5MetricItem0"}]},{"_Name":"KPIItem4","CaptionLabel":"MPG","MetricItems":[{"Value":"{MPG}","_Name":"KPIItem4MetricItem0"}]}]}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"DetailStatsPlayer","Caption":"Estadísticas","PrefersLargeCaption":true}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"KPIHeader":{"KPIItems":[{"_Name":"KPIItem6","CaptionLabel":"Partidos jugados","MetricItems":[{"Value":"{PartidosJugados}","_Name":"KPIItem6MetricItem0"}],"ShowProgress":false}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer","Visible":true,"KPIItems":[{"_Name":"KPIItem0","CaptionLabel":"PPG","MetricItems":[{"Value":"{PPG}","_Name":"KPIItem0MetricItem0"}],"ShowProgress":false},{"_Name":"KPIItem2","CaptionLabel":"DPG","MetricItems":[{"Value":"{DPG}","_Name":"KPIItem2MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer ","Visible":true,"KPIItems":[{"_Name":"KPIItem3","CaptionLabel":"TPG","MetricItems":[{"Value":"{TPG}","_Name":"KPIItem3MetricItem0"}]},{"_Name":"KPIItem1","CaptionLabel":"APG","MetricItems":[{"Value":"{APG}","_Name":"KPIItem1MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer  ","Visible":true,"KPIItems":[{"_Name":"KPIItem5","CaptionLabel":"RPG","MetricItems":[{"Value":"{RPG}","_Name":"KPIItem5MetricItem0"}]},{"_Name":"KPIItem4","CaptionLabel":"MPG","MetricItems":[{"Value":"{MPG}","_Name":"KPIItem4MetricItem0"}]}]}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"DetailStatsPlayer","Caption":"Estadísticas","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Editar estadisticas","Enabled":true,"Visible":true,"Clickable":true,"Style":""}]}}
 
 /***/ }),
 
@@ -502,7 +595,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \*****************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{EstadoDesc}","DetailImage":"{Logo}","DetailImageIsCircular":false,"BodyText":"{Entrenador}","HeadlineText":"{NombreEquipo}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"{@odata.readLink}/To_Jugadores"},"_Name":"SectionObjectCardCollection1","Visible":true,"EmptySection":{"FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"Card":{"Visible":true,"Title":"{Apellido}, {Nombre}","Subhead":"Dorsal #{Dorsal}","Footnote":"{PosicionDesc}","DetailImage":"sap-icon://person-placeholder","DetailImageIsCircular":false,"OverflowButtons":[],"PrimaryAction":{"OnPress":"/nba/Actions/NavToPlayerDetail.action","Style":"","Title":"Ver info","Visible":true},"SecondaryAction":{"Style":"","Title":"","Visible":false},"_Type":"Control.Type.ObjectCard"},"Layout":{"LayoutType":"Vertical"}}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Type":"Page","_Name":"DetailTeam","Caption":"Detalle de equipo","PrefersLargeCaption":true}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{Ciudad}, {EstadoDesc}","DetailImage":"{Logo}","DetailImageIsCircular":false,"BodyText":"Head coach: {Entrenador}","HeadlineText":"{NombreEquipo}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"{@odata.readLink}/To_Jugadores"},"_Name":"PlayerCollection","Visible":true,"EmptySection":{"FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"Card":{"Visible":true,"Title":"{Apellido}, {Nombre}","Subhead":"Dorsal #{Dorsal}","Footnote":"{PosicionDesc}","DetailImage":"sap-icon://person-placeholder","DetailImageIsCircular":false,"OverflowButtons":[],"PrimaryAction":{"OnPress":"/nba/Actions/NavToPlayerDetail.action","Style":"","Title":"Ver info","Visible":true},"SecondaryAction":{"Style":"","Title":"","Visible":false},"_Type":"Control.Type.ObjectCard"},"Layout":{"LayoutType":"Vertical"}}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Type":"Page","_Name":"DetailTeam","Caption":"Detalle de equipo","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Añadir jugador","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Rules/AddPlayer.js"}]}}
 
 /***/ }),
 
@@ -522,7 +615,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \***********************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"Header":{"Headline":"NBA","Icon":"/nba/Images/nba-logo.png","Alignment":"left","IconIsCircular":false,"DisableIconText":false},"Sections":[{"_Name":"SideDrawerSection0","Items":[{"Title":"Equipos","Image":"sap-icon://family-care","PageToOpen":"/nba/Pages/Teams.page","_Name":"SideDrawerSection0Item0","Visible":true,"TextAlignment":"left","Styles":{}},{"Title":"Jugadores","Image":"sap-icon://person-placeholder","PageToOpen":"/nba/Pages/Players.page","_Name":"SideDrawerSection0Item1","Visible":true,"TextAlignment":"left","Styles":{}}],"Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true}],"_Type":"Control.Type.SideDrawer","_Name":"SideDrawer0","AlwaysShowDrawerButton":false,"ClearHistory":false}],"_Type":"Page","_Name":"Main","Caption":"Main"}
+module.exports = {"Controls":[{"Header":{"Headline":"NBA","Icon":"/nba/Images/nba-logo.png","Alignment":"left","IconIsCircular":false,"DisableIconText":false},"Sections":[{"_Name":"SideDrawerSection0","Items":[{"Title":"Equipos","Image":"sap-icon://family-care","PageToOpen":"/nba/Pages/Teams.page","_Name":"SideDrawerSection0Item0","Visible":true,"TextAlignment":"left","Styles":{}},{"Title":"Jugadores","Image":"sap-icon://person-placeholder","PageToOpen":"/nba/Pages/Players.page","_Name":"SideDrawerSection0Item1","Visible":true,"TextAlignment":"left","Styles":{}},{"Title":"Sincronizar","Image":"sap-icon://synchronize","OnPress":"/nba/Actions/Sincronizar.action","_Name":"SideDrawerSection0Item2","Visible":true,"TextAlignment":"left","Styles":{}},{"Title":"Logout","Image":"sap-icon://log","OnPress":"/nba/Actions/LogoutMessage.action","_Name":"SideDrawerSection0Item3","Visible":true,"TextAlignment":"left","Styles":{}}],"Visible":true,"PreserveImageSpacing":true,"SeparatorEnabled":true}],"_Type":"Control.Type.SideDrawer","_Name":"SideDrawer0","AlwaysShowDrawerButton":false,"ClearHistory":false}],"_Type":"Page","_Name":"Main","Caption":"Main"}
 
 /***/ }),
 
@@ -542,7 +635,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Name":"SectionObjectTable0","Visible":true,"EmptySection":{"FooterVisible":false},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true},"Title":"{NombreEquipo}","Subhead":"{Ciudad}","Description":"Entrenador: {Entrenador}","DisplayDescriptionInMobile":true,"PreserveIconStackSpacing":false,"AccessoryType":"detailButton","AccessoryButtonIcon":"sap-icon://show-edit","ProgressIndicator":"inProgress","Tags":[{"Color":"Grey","Text":"{Estado}"}],"AvatarStack":{"Avatars":[{"Image":"{Logo}"}],"ImageIsCircular":false,"ImageHasBorder":false},"AvatarGrid":{"Avatars":[],"ImageIsCircular":true},"OnPress":"/nba/Actions/Navigation/NavToDetail.action","OnAccessoryButtonPress":"/nba/Actions/MenuTeam.action","Selected":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"HighlightSelectedItem":false,"Selection":{"ExitOnLastDeselect":true,"LongPressToEnable":"None","Mode":"None"}}]}],"_Type":"Page","_Name":"Teams","Caption":"Equipos","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Add","Icon":"sap-icon://add","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/CRUD/Create/NavToAddTeam.action"}],"_Name":"ActionBar1"}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Name":"SectionObjectTable0","Visible":true,"EmptySection":{"FooterVisible":false,"Style":"test"},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true},"Title":"{NombreEquipo}","Subhead":"{Ciudad}","DisplayDescriptionInMobile":true,"PreserveIconStackSpacing":false,"AccessoryType":"detailButton","AccessoryButtonIcon":"sap-icon://show-edit","ProgressIndicator":"inProgress","Tags":[{"Color":"Grey","Text":"{Estado}"}],"AvatarStack":{"Avatars":[{"Image":"{Logo}"}],"ImageIsCircular":false,"ImageHasBorder":false},"AvatarGrid":{"Avatars":[],"ImageIsCircular":true},"OnPress":"/nba/Actions/Navigation/NavToDetail.action","OnAccessoryButtonPress":"/nba/Actions/MenuTeam.action","Selected":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"HighlightSelectedItem":false,"Selection":{"ExitOnLastDeselect":true,"LongPressToEnable":"None","Mode":"None"}}]}],"_Type":"Page","_Name":"Teams","Caption":"Equipos","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Add","Icon":"sap-icon://add","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/CRUD/Create/NavToAddTeam.action"}],"_Name":"ActionBar1"}}
 
 /***/ }),
 
@@ -593,6 +686,16 @@ module.exports = {"Animated":true,"CompletionTimeout":3,"Message":"Checking for 
 /***/ ((module) => {
 
 module.exports = {"Animated":true,"Duration":2,"Message":"Update application complete","_Type":"Action.Type.ToastMessage"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/CRUD/Create/AddPlayer.action":
+/*!********************************************************************!*\
+  !*** ./build.definitions/nba/Actions/CRUD/Create/AddPlayer.action ***!
+  \********************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ODataService.CreateEntity","ActionResult":{"_Name":"AddPlayerResult"},"OnFailure":"/nba/Actions/FailAddPlayer.action","OnSuccess":"/nba/Rules/SuccessAddPlayer.js","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"Properties":{"NombreEquipo":"#Page:DetailTeam/#ClientData/NombreEquipo","Dorsal":"#Page:AddPlayer/#Control:FCDorsal/#Value","Posicion":"#Page:AddPlayer/#Control:FCPosicion/#SelectedValue","Nombre":"#Page:AddPlayer/#Control:FCNombre/#Value","Apellido":"#Page:AddPlayer/#Control:FCApellido/#Value","Peso":"#Control:FCPeso/#Value","FechaDeNacimiento":"#Page:AddPlayer/#Control:DPFechaNacimiento/#Value","Nacionalidad":"#Page:AddPlayer/#Control:LPNacionalidad/#SelectedValue"}}
 
 /***/ }),
 
@@ -702,7 +805,7 @@ module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"Success
   \************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.ODataService.CallFunction","ActionResult":{"_Name":"AddMatchStats"},"Target":{"Service":"/nba/Services/NBA.service","Function":{"Name":"AgregarDatosPartido","Parameters":{"Jugador":"/nba/Rules/AddMatchStats.js"}}}}
+module.exports = {"_Type":"Action.Type.ODataService.UpdateEntity","ActionResult":{"_Name":"AddMatchStatsResult"},"OnFailure":"/nba/Actions/FailAddMatchStats.action","OnSuccess":"/nba/Actions/SuccessAddMatchStats.action","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet","ReadLink":"{@odata.readLink}"},"Properties":{"Puntos":"#Page:AddMatchStats/#Control:FCPuntos/#Value","Asistencias":"#Page:AddMatchStats/#Control:FCAsistencias/#Value","Rebotes":"#Page:AddMatchStats/#Control:FCRebotes/#Value","Dobles":"#Page:AddMatchStats/#Control:FCDobles/#Value","Triples":"#Page:AddMatchStats/#Control:FCTriples/#Value","Minutos":"#Page:AddMatchStats/#Control:FCMinutos/#Value"}}
 
 /***/ }),
 
@@ -746,6 +849,16 @@ module.exports = {"_Type":"Action.Type.ODataService.UpdateEntity","ActionResult"
 
 /***/ }),
 
+/***/ "./build.definitions/nba/Actions/CheckFieldsAddPlayer.action":
+/*!*******************************************************************!*\
+  !*** ./build.definitions/nba/Actions/CheckFieldsAddPlayer.action ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.CheckRequiredFields","ActionResult":{"_Name":"CheckFieldsAddPlayer"},"OnSuccess":"/nba/Rules/CheckPlayerData.js","RequiredFields":["DPFechaNacimiento","FCApellido","FCDorsal","FCNombre","FCPeso","FCPosicion","LPNacionalidad"]}
+
+/***/ }),
+
 /***/ "./build.definitions/nba/Actions/Close.action":
 /*!****************************************************!*\
   !*** ./build.definitions/nba/Actions/Close.action ***!
@@ -763,6 +876,66 @@ module.exports = {"_Type":"Action.Type.ClosePage","ActionResult":{"_Name":"Close
 /***/ ((module) => {
 
 module.exports = {"_Type":"Action.Type.ClosePage"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/ConfirmAddPlayer.action":
+/*!***************************************************************!*\
+  !*** ./build.definitions/nba/Actions/ConfirmAddPlayer.action ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"ConfirmAddPlayer"},"Message":"¿Desea agregar el jugador a {NombreEquipo}?","Title":"Confirmación","OKCaption":"OK","OnOK":"/nba/Actions/CRUD/Create/AddPlayer.action","CancelCaption":"Cancelar","OnCancel":"/nba/Actions/ClosePage.action"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/ErrorDorsal.action":
+/*!**********************************************************!*\
+  !*** ./build.definitions/nba/Actions/ErrorDorsal.action ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ToastMessage","ActionResult":{"_Name":"ErrorDorsal"},"Message":"El número de dorsal debe estar entre 0 y 99"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/ErrorFechaNacimiento.action":
+/*!*******************************************************************!*\
+  !*** ./build.definitions/nba/Actions/ErrorFechaNacimiento.action ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ToastMessage","ActionResult":{"_Name":"ErrorFechaNacimiento"},"Message":"El jugador debe tener, al menos, 18 años al momento de registrarse"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/ErrorPeso.action":
+/*!********************************************************!*\
+  !*** ./build.definitions/nba/Actions/ErrorPeso.action ***!
+  \********************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ToastMessage","ActionResult":{"_Name":"ErrorPeso"},"Message":"El peso debe estar entre 50 y 200 kg"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/FailAddMatchStats.action":
+/*!****************************************************************!*\
+  !*** ./build.definitions/nba/Actions/FailAddMatchStats.action ***!
+  \****************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"FailAddMatchStats"},"Message":"Error: {#ActionResults:AddMatchStatsResult/error}","OKCaption":"Cerrar"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/FailAddPlayer.action":
+/*!************************************************************!*\
+  !*** ./build.definitions/nba/Actions/FailAddPlayer.action ***!
+  \************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"FailAddPlayer"},"Message":"Error: {#ActionResults:AddPlayerResult/error}","OKCaption":"Cerrar"}
 
 /***/ }),
 
@@ -803,6 +976,16 @@ module.exports = {"_Type":"Action.Type.PopoverMenu","ActionResult":{"_Name":"Men
 /***/ ((module) => {
 
 module.exports = {"_Type":"Action.Type.Navigation","ActionResult":{"_Name":"NavToAddMatchStats"},"PageToOpen":"/nba/Pages/AddMatchStats.page","ModalPage":true,"Transition":{"Curve":"EaseOut"}}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/NavToAddPlayer.action":
+/*!*************************************************************!*\
+  !*** ./build.definitions/nba/Actions/NavToAddPlayer.action ***!
+  \*************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Navigation","ActionResult":{"_Name":"NavToAddPlayer"},"PageToOpen":"/nba/Pages/AddPlayer.page","ModalPage":false,"NavigationType":"Inner"}
 
 /***/ }),
 
@@ -876,6 +1059,36 @@ module.exports = {"Animated":true,"Duration":2,"Message":"Application data servi
 
 /***/ }),
 
+/***/ "./build.definitions/nba/Actions/Sincronizar.action":
+/*!**********************************************************!*\
+  !*** ./build.definitions/nba/Actions/Sincronizar.action ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ApplicationUpdate","ActionResult":{"_Name":"Sincronizar"}}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/SuccessAddMatchStats.action":
+/*!*******************************************************************!*\
+  !*** ./build.definitions/nba/Actions/SuccessAddMatchStats.action ***!
+  \*******************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessAddMatchStats"},"Message":"Registro agregado exitosamente","OKCaption":"OK","OnOK":"/nba/Actions/ClosePage.action"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/SuccessAddPlayer.action":
+/*!***************************************************************!*\
+  !*** ./build.definitions/nba/Actions/SuccessAddPlayer.action ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessAddPlayer"},"Message":"Jugador agregado exitosamente","OKCaption":"Cerrar","OnOK":"/nba/Actions/ClosePage.action"}
+
+/***/ }),
+
 /***/ "./build.definitions/nba/Globals/AppDefinition_Version.global":
 /*!********************************************************************!*\
   !*** ./build.definitions/nba/Globals/AppDefinition_Version.global ***!
@@ -927,8 +1140,11 @@ let nba_actions_appupdate_action = __webpack_require__(/*! ./nba/Actions/AppUpda
 let nba_actions_appupdatefailuremessage_action = __webpack_require__(/*! ./nba/Actions/AppUpdateFailureMessage.action */ "./build.definitions/nba/Actions/AppUpdateFailureMessage.action")
 let nba_actions_appupdateprogressbanner_action = __webpack_require__(/*! ./nba/Actions/AppUpdateProgressBanner.action */ "./build.definitions/nba/Actions/AppUpdateProgressBanner.action")
 let nba_actions_appupdatesuccessmessage_action = __webpack_require__(/*! ./nba/Actions/AppUpdateSuccessMessage.action */ "./build.definitions/nba/Actions/AppUpdateSuccessMessage.action")
+let nba_actions_checkfieldsaddplayer_action = __webpack_require__(/*! ./nba/Actions/CheckFieldsAddPlayer.action */ "./build.definitions/nba/Actions/CheckFieldsAddPlayer.action")
 let nba_actions_close_action = __webpack_require__(/*! ./nba/Actions/Close.action */ "./build.definitions/nba/Actions/Close.action")
 let nba_actions_closepage_action = __webpack_require__(/*! ./nba/Actions/ClosePage.action */ "./build.definitions/nba/Actions/ClosePage.action")
+let nba_actions_confirmaddplayer_action = __webpack_require__(/*! ./nba/Actions/ConfirmAddPlayer.action */ "./build.definitions/nba/Actions/ConfirmAddPlayer.action")
+let nba_actions_crud_create_addplayer_action = __webpack_require__(/*! ./nba/Actions/CRUD/Create/AddPlayer.action */ "./build.definitions/nba/Actions/CRUD/Create/AddPlayer.action")
 let nba_actions_crud_create_addteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Create/AddTeam.action */ "./build.definitions/nba/Actions/CRUD/Create/AddTeam.action")
 let nba_actions_crud_create_checkrequiredfields_action = __webpack_require__(/*! ./nba/Actions/CRUD/Create/CheckRequiredFields.action */ "./build.definitions/nba/Actions/CRUD/Create/CheckRequiredFields.action")
 let nba_actions_crud_create_failaddteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Create/FailAddTeam.action */ "./build.definitions/nba/Actions/CRUD/Create/FailAddTeam.action")
@@ -944,22 +1160,32 @@ let nba_actions_crud_update_confirmedit_action = __webpack_require__(/*! ./nba/A
 let nba_actions_crud_update_faileditteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/FailEditTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/FailEditTeam.action")
 let nba_actions_crud_update_successeditteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/SuccessEditTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/SuccessEditTeam.action")
 let nba_actions_crud_update_updateteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/UpdateTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/UpdateTeam.action")
+let nba_actions_errordorsal_action = __webpack_require__(/*! ./nba/Actions/ErrorDorsal.action */ "./build.definitions/nba/Actions/ErrorDorsal.action")
+let nba_actions_errorfechanacimiento_action = __webpack_require__(/*! ./nba/Actions/ErrorFechaNacimiento.action */ "./build.definitions/nba/Actions/ErrorFechaNacimiento.action")
+let nba_actions_errorpeso_action = __webpack_require__(/*! ./nba/Actions/ErrorPeso.action */ "./build.definitions/nba/Actions/ErrorPeso.action")
+let nba_actions_failaddmatchstats_action = __webpack_require__(/*! ./nba/Actions/FailAddMatchStats.action */ "./build.definitions/nba/Actions/FailAddMatchStats.action")
+let nba_actions_failaddplayer_action = __webpack_require__(/*! ./nba/Actions/FailAddPlayer.action */ "./build.definitions/nba/Actions/FailAddPlayer.action")
 let nba_actions_logout_action = __webpack_require__(/*! ./nba/Actions/Logout.action */ "./build.definitions/nba/Actions/Logout.action")
 let nba_actions_logoutmessage_action = __webpack_require__(/*! ./nba/Actions/LogoutMessage.action */ "./build.definitions/nba/Actions/LogoutMessage.action")
 let nba_actions_menuteam_action = __webpack_require__(/*! ./nba/Actions/MenuTeam.action */ "./build.definitions/nba/Actions/MenuTeam.action")
 let nba_actions_navigation_navtodetail_action = __webpack_require__(/*! ./nba/Actions/Navigation/NavToDetail.action */ "./build.definitions/nba/Actions/Navigation/NavToDetail.action")
 let nba_actions_navtoaddmatchstats_action = __webpack_require__(/*! ./nba/Actions/NavToAddMatchStats.action */ "./build.definitions/nba/Actions/NavToAddMatchStats.action")
+let nba_actions_navtoaddplayer_action = __webpack_require__(/*! ./nba/Actions/NavToAddPlayer.action */ "./build.definitions/nba/Actions/NavToAddPlayer.action")
 let nba_actions_navtoeditteam_action = __webpack_require__(/*! ./nba/Actions/NavToEditTeam.action */ "./build.definitions/nba/Actions/NavToEditTeam.action")
 let nba_actions_navtoplayerdetail_action = __webpack_require__(/*! ./nba/Actions/NavToPlayerDetail.action */ "./build.definitions/nba/Actions/NavToPlayerDetail.action")
 let nba_actions_onwillupdate_action = __webpack_require__(/*! ./nba/Actions/OnWillUpdate.action */ "./build.definitions/nba/Actions/OnWillUpdate.action")
 let nba_actions_service_initializeonline_action = __webpack_require__(/*! ./nba/Actions/Service/InitializeOnline.action */ "./build.definitions/nba/Actions/Service/InitializeOnline.action")
 let nba_actions_service_initializeonlinefailuremessage_action = __webpack_require__(/*! ./nba/Actions/Service/InitializeOnlineFailureMessage.action */ "./build.definitions/nba/Actions/Service/InitializeOnlineFailureMessage.action")
 let nba_actions_service_initializeonlinesuccessmessage_action = __webpack_require__(/*! ./nba/Actions/Service/InitializeOnlineSuccessMessage.action */ "./build.definitions/nba/Actions/Service/InitializeOnlineSuccessMessage.action")
+let nba_actions_sincronizar_action = __webpack_require__(/*! ./nba/Actions/Sincronizar.action */ "./build.definitions/nba/Actions/Sincronizar.action")
+let nba_actions_successaddmatchstats_action = __webpack_require__(/*! ./nba/Actions/SuccessAddMatchStats.action */ "./build.definitions/nba/Actions/SuccessAddMatchStats.action")
+let nba_actions_successaddplayer_action = __webpack_require__(/*! ./nba/Actions/SuccessAddPlayer.action */ "./build.definitions/nba/Actions/SuccessAddPlayer.action")
 let nba_globals_appdefinition_version_global = __webpack_require__(/*! ./nba/Globals/AppDefinition_Version.global */ "./build.definitions/nba/Globals/AppDefinition_Version.global")
 let nba_i18n_i18n_properties = __webpack_require__(/*! ./nba/i18n/i18n.properties */ "./build.definitions/nba/i18n/i18n.properties")
 let nba_images_nba__logo_png = __webpack_require__(/*! ./nba/Images/nba-logo.png */ "./build.definitions/nba/Images/nba-logo.png")
 let nba_jsconfig_json = __webpack_require__(/*! ./nba/jsconfig.json */ "./build.definitions/nba/jsconfig.json")
 let nba_pages_addmatchstats_page = __webpack_require__(/*! ./nba/Pages/AddMatchStats.page */ "./build.definitions/nba/Pages/AddMatchStats.page")
+let nba_pages_addplayer_page = __webpack_require__(/*! ./nba/Pages/AddPlayer.page */ "./build.definitions/nba/Pages/AddPlayer.page")
 let nba_pages_addteam_page = __webpack_require__(/*! ./nba/Pages/AddTeam.page */ "./build.definitions/nba/Pages/AddTeam.page")
 let nba_pages_detailinfoplayer_page = __webpack_require__(/*! ./nba/Pages/DetailInfoPlayer.page */ "./build.definitions/nba/Pages/DetailInfoPlayer.page")
 let nba_pages_detailplayer_page = __webpack_require__(/*! ./nba/Pages/DetailPlayer.page */ "./build.definitions/nba/Pages/DetailPlayer.page")
@@ -970,12 +1196,14 @@ let nba_pages_main_page = __webpack_require__(/*! ./nba/Pages/Main.page */ "./bu
 let nba_pages_players_page = __webpack_require__(/*! ./nba/Pages/Players.page */ "./build.definitions/nba/Pages/Players.page")
 let nba_pages_teams_page = __webpack_require__(/*! ./nba/Pages/Teams.page */ "./build.definitions/nba/Pages/Teams.page")
 let nba_rules_addmatchstats_js = __webpack_require__(/*! ./nba/Rules/AddMatchStats.js */ "./build.definitions/nba/Rules/AddMatchStats.js")
+let nba_rules_addplayer_js = __webpack_require__(/*! ./nba/Rules/AddPlayer.js */ "./build.definitions/nba/Rules/AddPlayer.js")
 let nba_rules_appupdatefailure_js = __webpack_require__(/*! ./nba/Rules/AppUpdateFailure.js */ "./build.definitions/nba/Rules/AppUpdateFailure.js")
 let nba_rules_appupdatesuccess_js = __webpack_require__(/*! ./nba/Rules/AppUpdateSuccess.js */ "./build.definitions/nba/Rules/AppUpdateSuccess.js")
+let nba_rules_checkplayerdata_js = __webpack_require__(/*! ./nba/Rules/CheckPlayerData.js */ "./build.definitions/nba/Rules/CheckPlayerData.js")
 let nba_rules_loadimage_js = __webpack_require__(/*! ./nba/Rules/LoadImage.js */ "./build.definitions/nba/Rules/LoadImage.js")
 let nba_rules_onwillupdate_js = __webpack_require__(/*! ./nba/Rules/OnWillUpdate.js */ "./build.definitions/nba/Rules/OnWillUpdate.js")
-let nba_rules_renderimage_js = __webpack_require__(/*! ./nba/Rules/RenderImage.js */ "./build.definitions/nba/Rules/RenderImage.js")
 let nba_rules_resetappsettingsandlogout_js = __webpack_require__(/*! ./nba/Rules/ResetAppSettingsAndLogout.js */ "./build.definitions/nba/Rules/ResetAppSettingsAndLogout.js")
+let nba_rules_successaddplayer_js = __webpack_require__(/*! ./nba/Rules/SuccessAddPlayer.js */ "./build.definitions/nba/Rules/SuccessAddPlayer.js")
 let nba_services_nba_service = __webpack_require__(/*! ./nba/Services/NBA.service */ "./build.definitions/nba/Services/NBA.service")
 let nba_styles_styles_css = __webpack_require__(/*! ./nba/Styles/Styles.css */ "./build.definitions/nba/Styles/Styles.css")
 let nba_styles_styles_less = __webpack_require__(/*! ./nba/Styles/Styles.less */ "./build.definitions/nba/Styles/Styles.less")
@@ -991,8 +1219,11 @@ module.exports = {
 	nba_actions_appupdatefailuremessage_action : nba_actions_appupdatefailuremessage_action,
 	nba_actions_appupdateprogressbanner_action : nba_actions_appupdateprogressbanner_action,
 	nba_actions_appupdatesuccessmessage_action : nba_actions_appupdatesuccessmessage_action,
+	nba_actions_checkfieldsaddplayer_action : nba_actions_checkfieldsaddplayer_action,
 	nba_actions_close_action : nba_actions_close_action,
 	nba_actions_closepage_action : nba_actions_closepage_action,
+	nba_actions_confirmaddplayer_action : nba_actions_confirmaddplayer_action,
+	nba_actions_crud_create_addplayer_action : nba_actions_crud_create_addplayer_action,
 	nba_actions_crud_create_addteam_action : nba_actions_crud_create_addteam_action,
 	nba_actions_crud_create_checkrequiredfields_action : nba_actions_crud_create_checkrequiredfields_action,
 	nba_actions_crud_create_failaddteam_action : nba_actions_crud_create_failaddteam_action,
@@ -1008,22 +1239,32 @@ module.exports = {
 	nba_actions_crud_update_faileditteam_action : nba_actions_crud_update_faileditteam_action,
 	nba_actions_crud_update_successeditteam_action : nba_actions_crud_update_successeditteam_action,
 	nba_actions_crud_update_updateteam_action : nba_actions_crud_update_updateteam_action,
+	nba_actions_errordorsal_action : nba_actions_errordorsal_action,
+	nba_actions_errorfechanacimiento_action : nba_actions_errorfechanacimiento_action,
+	nba_actions_errorpeso_action : nba_actions_errorpeso_action,
+	nba_actions_failaddmatchstats_action : nba_actions_failaddmatchstats_action,
+	nba_actions_failaddplayer_action : nba_actions_failaddplayer_action,
 	nba_actions_logout_action : nba_actions_logout_action,
 	nba_actions_logoutmessage_action : nba_actions_logoutmessage_action,
 	nba_actions_menuteam_action : nba_actions_menuteam_action,
 	nba_actions_navigation_navtodetail_action : nba_actions_navigation_navtodetail_action,
 	nba_actions_navtoaddmatchstats_action : nba_actions_navtoaddmatchstats_action,
+	nba_actions_navtoaddplayer_action : nba_actions_navtoaddplayer_action,
 	nba_actions_navtoeditteam_action : nba_actions_navtoeditteam_action,
 	nba_actions_navtoplayerdetail_action : nba_actions_navtoplayerdetail_action,
 	nba_actions_onwillupdate_action : nba_actions_onwillupdate_action,
 	nba_actions_service_initializeonline_action : nba_actions_service_initializeonline_action,
 	nba_actions_service_initializeonlinefailuremessage_action : nba_actions_service_initializeonlinefailuremessage_action,
 	nba_actions_service_initializeonlinesuccessmessage_action : nba_actions_service_initializeonlinesuccessmessage_action,
+	nba_actions_sincronizar_action : nba_actions_sincronizar_action,
+	nba_actions_successaddmatchstats_action : nba_actions_successaddmatchstats_action,
+	nba_actions_successaddplayer_action : nba_actions_successaddplayer_action,
 	nba_globals_appdefinition_version_global : nba_globals_appdefinition_version_global,
 	nba_i18n_i18n_properties : nba_i18n_i18n_properties,
 	nba_images_nba__logo_png : nba_images_nba__logo_png,
 	nba_jsconfig_json : nba_jsconfig_json,
 	nba_pages_addmatchstats_page : nba_pages_addmatchstats_page,
+	nba_pages_addplayer_page : nba_pages_addplayer_page,
 	nba_pages_addteam_page : nba_pages_addteam_page,
 	nba_pages_detailinfoplayer_page : nba_pages_detailinfoplayer_page,
 	nba_pages_detailplayer_page : nba_pages_detailplayer_page,
@@ -1034,12 +1275,14 @@ module.exports = {
 	nba_pages_players_page : nba_pages_players_page,
 	nba_pages_teams_page : nba_pages_teams_page,
 	nba_rules_addmatchstats_js : nba_rules_addmatchstats_js,
+	nba_rules_addplayer_js : nba_rules_addplayer_js,
 	nba_rules_appupdatefailure_js : nba_rules_appupdatefailure_js,
 	nba_rules_appupdatesuccess_js : nba_rules_appupdatesuccess_js,
+	nba_rules_checkplayerdata_js : nba_rules_checkplayerdata_js,
 	nba_rules_loadimage_js : nba_rules_loadimage_js,
 	nba_rules_onwillupdate_js : nba_rules_onwillupdate_js,
-	nba_rules_renderimage_js : nba_rules_renderimage_js,
 	nba_rules_resetappsettingsandlogout_js : nba_rules_resetappsettingsandlogout_js,
+	nba_rules_successaddplayer_js : nba_rules_successaddplayer_js,
 	nba_services_nba_service : nba_services_nba_service,
 	nba_styles_styles_css : nba_styles_styles_css,
 	nba_styles_styles_less : nba_styles_styles_less,

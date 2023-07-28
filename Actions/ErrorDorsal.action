@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.ToastMessage",
+	"ActionResult": {
+		"_Name": "ErrorDorsal"
+	},
+	"Message": "El número de dorsal debe estar entre 0 y 99"
+}

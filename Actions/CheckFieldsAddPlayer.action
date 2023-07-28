@@ -1,0 +1,16 @@
+{
+	"_Type": "Action.Type.CheckRequiredFields",
+	"ActionResult": {
+		"_Name": "CheckFieldsAddPlayer"
+	},
+	"OnSuccess": "/nba/Rules/CheckPlayerData.js",
+	"RequiredFields": [
+		"DPFechaNacimiento",
+		"FCApellido",
+		"FCDorsal",
+		"FCNombre",
+		"FCPeso",
+		"FCPosicion",
+		"LPNacionalidad"
+	]
+}

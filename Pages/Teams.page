@@ -20,7 +20,8 @@
 					"_Name": "SectionObjectTable0",
 					"Visible": true,
 					"EmptySection": {
-						"FooterVisible": false
+						"FooterVisible": false,
+						"Style": "test"
 					},
 					"ObjectCell": {
 						"ContextMenu": {
@@ -29,7 +30,6 @@
 						},
 						"Title": "{NombreEquipo}",
 						"Subhead": "{Ciudad}",
-						"Description": "Entrenador: {Entrenador}",
 						"DisplayDescriptionInMobile": true,
 						"PreserveIconStackSpacing": false,
 						"AccessoryType": "detailButton",

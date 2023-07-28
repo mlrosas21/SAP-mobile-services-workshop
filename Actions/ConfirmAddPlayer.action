@@ -1,0 +1,12 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "ConfirmAddPlayer"
+	},
+	"Message": "¿Desea agregar el jugador a {NombreEquipo}?",
+	"Title": "Confirmación",
+	"OKCaption": "OK",
+	"OnOK": "/nba/Actions/CRUD/Create/AddPlayer.action",
+	"CancelCaption": "Cancelar",
+	"OnCancel": "/nba/Actions/ClosePage.action"
+}

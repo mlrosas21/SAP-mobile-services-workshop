@@ -1,0 +1,9 @@
+{
+	"_Type": "Action.Type.Navigation",
+	"ActionResult": {
+		"_Name": "NavToAddPlayer"
+	},
+	"PageToOpen": "/nba/Pages/AddPlayer.page",
+	"ModalPage": false,
+	"NavigationType": "Inner"
+}

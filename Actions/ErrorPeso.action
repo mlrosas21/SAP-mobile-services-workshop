@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.ToastMessage",
+	"ActionResult": {
+		"_Name": "ErrorPeso"
+	},
+	"Message": "El peso debe estar entre 50 y 200 kg"
+}

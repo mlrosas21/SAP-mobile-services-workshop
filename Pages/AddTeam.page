@@ -142,7 +142,6 @@
 							"IsVisible": true,
 							"Separator": true,
 							"Caption": "URL de Logo",
-							"OnValueChange": "/nba/Rules/RenderImage.js",
 							"KeyboardType": "Url",
 							"Enabled": true
 						}

@@ -1,0 +1,137 @@
+{
+	"Controls": [
+		{
+			"_Type": "Control.Type.SectionedTable",
+			"_Name": "SectionedTable0",
+			"Sections": [
+				{
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
+					"Controls": [
+						{
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCDorsal",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Dorsal",
+							"KeyboardType": "Number",
+							"Enabled": true
+						},
+						{
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCNombre",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Nombre",
+							"Enabled": true
+						},
+						{
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCApellido",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Apellido",
+							"Enabled": true
+						},
+						{
+							"_Type": "Control.Type.FormCell.ListPicker",
+							"_Name": "LPNacionalidad",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"AllowMultipleSelection": false,
+							"AllowEmptySelection": true,
+							"Caption": "Nacionalidad",
+							"DataPaging": {
+								"ShowLoadingIndicator": false,
+								"PageSize": 50
+							},
+							"PickerPrompt": "Please select one single item",
+							"IsSelectedSectionEnabled": false,
+							"IsPickerDismissedOnSelection": false,
+							"IsSearchCancelledAfterSelection": false,
+							"AllowDefaultValueIfOneItem": false,
+							"PickerItems": [
+								"Estados Unidos",
+								"Canada",
+								"Argentina",
+								"Francia",
+								"Grecia"
+							]
+						},
+						{
+							"_Type": "Control.Type.FormCell.DatePicker",
+							"_Name": "DPFechaNacimiento",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Fecha de nacimiento",
+							"Mode": "Date"
+						},
+						{
+							"_Type": "Control.Type.FormCell.SegmentedControl",
+							"_Name": "FCPosicion",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"ApportionsSegmentWidthsByContent": false,
+							"Segments": {
+								"Target": {
+									"Service": "/nba/Services/NBA.service",
+									"EntitySet": "PosicionBaskSet"
+								},
+								"DisplayValue": "{DescPosicion}",
+								"ReturnValue": "{CodPosicion}"
+							}
+						},
+						{
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCPeso",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Peso (kg)",
+							"PlaceHolder": "Ingrese el peso en kilogramos",
+							"KeyboardType": "Number",
+							"Enabled": true
+						}
+					],
+					"Visible": true,
+					"EmptySection": {
+						"FooterVisible": false
+					},
+					"_Type": "Section.Type.FormCell",
+					"_Name": "SectionFormCell0"
+				}
+			]
+		}
+	],
+	"_Type": "Page",
+	"_Name": "AddPlayer",
+	"Caption": "Agregar Jugador",
+	"PrefersLargeCaption": true,
+	"ToolBar": {
+		"Items": [
+			{
+				"_Type": "Control.Type.ToolbarItem",
+				"_Name": "ToolbarItem0",
+				"Caption": "Agregar",
+				"Enabled": true,
+				"Visible": true,
+				"Clickable": true,
+				"SystemItem": "Save",
+				"ItemType": "Button",
+				"Style": "",
+				"OnPress": "/nba/Actions/CheckFieldsAddPlayer.action"
+			}
+		]
+	}
+}

@@ -1,15 +1,21 @@
 {
-	"_Type": "Action.Type.ODataService.CallFunction",
+	"_Type": "Action.Type.ODataService.UpdateEntity",
 	"ActionResult": {
-		"_Name": "AddMatchStats"
+		"_Name": "AddMatchStatsResult"
 	},
+	"OnFailure": "/nba/Actions/FailAddMatchStats.action",
+	"OnSuccess": "/nba/Actions/SuccessAddMatchStats.action",
 	"Target": {
 		"Service": "/nba/Services/NBA.service",
-		"Function": {
-			"Name": "AgregarDatosPartido",
-			"Parameters": {
-				"Jugador": "/nba/Rules/AddMatchStats.js"
-			}
-		}
+		"EntitySet": "JugadorSet",
+		"ReadLink": "{@odata.readLink}"
+	},
+	"Properties": {
+		"Puntos": "#Page:AddMatchStats/#Control:FCPuntos/#Value",
+		"Asistencias": "#Page:AddMatchStats/#Control:FCAsistencias/#Value",
+		"Rebotes": "#Page:AddMatchStats/#Control:FCRebotes/#Value",
+		"Dobles": "#Page:AddMatchStats/#Control:FCDobles/#Value",
+		"Triples": "#Page:AddMatchStats/#Control:FCTriples/#Value",
+		"Minutos": "#Page:AddMatchStats/#Control:FCMinutos/#Value"
 	}
 }

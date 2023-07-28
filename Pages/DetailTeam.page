@@ -6,10 +6,10 @@
 			"Sections": [
 				{
 					"ObjectHeader": {
-						"Subhead": "{EstadoDesc}",
+						"Subhead": "{Ciudad}, {EstadoDesc}",
 						"DetailImage": "{Logo}",
 						"DetailImageIsCircular": false,
-						"BodyText": "{Entrenador}",
+						"BodyText": "Head coach: {Entrenador}",
 						"HeadlineText": "{NombreEquipo}",
 						"StatusPosition": "Stacked",
 						"StatusImagePosition": "Leading",
@@ -32,7 +32,7 @@
 						"Service": "/nba/Services/NBA.service",
 						"EntitySet": "{@odata.readLink}/To_Jugadores"
 					},
-					"_Name": "SectionObjectCardCollection1",
+					"_Name": "PlayerCollection",
 					"Visible": true,
 					"EmptySection": {
 						"FooterVisible": false
@@ -76,5 +76,19 @@
 	"_Type": "Page",
 	"_Name": "DetailTeam",
 	"Caption": "Detalle de equipo",
-	"PrefersLargeCaption": true
+	"PrefersLargeCaption": true,
+	"ToolBar": {
+		"Items": [
+			{
+				"_Type": "Control.Type.ToolbarItem",
+				"_Name": "ToolbarItem0",
+				"Caption": "Añadir jugador",
+				"Enabled": true,
+				"Visible": true,
+				"Clickable": true,
+				"Style": "",
+				"OnPress": "/nba/Rules/AddPlayer.js"
+			}
+		]
+	}
 }

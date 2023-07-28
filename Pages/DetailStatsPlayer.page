@@ -116,5 +116,18 @@
 	"_Type": "Page",
 	"_Name": "DetailStatsPlayer",
 	"Caption": "Estadísticas",
-	"PrefersLargeCaption": true
+	"PrefersLargeCaption": true,
+	"ToolBar": {
+		"Items": [
+			{
+				"_Type": "Control.Type.ToolbarItem",
+				"_Name": "ToolbarItem0",
+				"Caption": "Editar estadisticas",
+				"Enabled": true,
+				"Visible": true,
+				"Clickable": true,
+				"Style": ""
+			}
+		]
+	}
 }

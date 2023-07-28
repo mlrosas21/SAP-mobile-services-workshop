@@ -1,0 +1,9 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "SuccessAddMatchStats"
+	},
+	"Message": "Registro agregado exitosamente",
+	"OKCaption": "OK",
+	"OnOK": "/nba/Actions/ClosePage.action"
+}

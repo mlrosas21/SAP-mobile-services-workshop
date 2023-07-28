@@ -32,7 +32,7 @@
                 <Property Name="PosicionDesc" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Descripción posición" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Nombre" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Nombre" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Apellido" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Apellido" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
-                <Property Name="Altura" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Altura en cm" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
+                <Property Name="Altura" Type="Edm.Int16" Nullable="true" sap:unicode="false" sap:label="Altura en cm" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Peso" Type="Edm.Int16" Nullable="false" sap:unicode="false" sap:label="Peso en kg" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="FechaDeNacimiento" Type="Edm.DateTime" Nullable="false" Precision="0" sap:unicode="false" sap:label="Fecha de nacimiento" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>
                 <Property Name="Nacionalidad" Type="Edm.String" Nullable="false" sap:unicode="false" sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/>

@@ -1,0 +1,22 @@
+{
+	"_Type": "Action.Type.ODataService.CreateEntity",
+	"ActionResult": {
+		"_Name": "AddPlayerResult"
+	},
+	"OnFailure": "/nba/Actions/FailAddPlayer.action",
+	"OnSuccess": "/nba/Rules/SuccessAddPlayer.js",
+	"Target": {
+		"Service": "/nba/Services/NBA.service",
+		"EntitySet": "JugadorSet"
+	},
+	"Properties": {
+		"NombreEquipo": "#Page:DetailTeam/#ClientData/NombreEquipo",
+		"Dorsal": "#Page:AddPlayer/#Control:FCDorsal/#Value",
+		"Posicion": "#Page:AddPlayer/#Control:FCPosicion/#SelectedValue",
+		"Nombre": "#Page:AddPlayer/#Control:FCNombre/#Value",
+		"Apellido": "#Page:AddPlayer/#Control:FCApellido/#Value",
+		"Peso": "#Control:FCPeso/#Value",
+		"FechaDeNacimiento": "#Page:AddPlayer/#Control:DPFechaNacimiento/#Value",
+		"Nacionalidad": "#Page:AddPlayer/#Control:LPNacionalidad/#SelectedValue"
+	}
+}
