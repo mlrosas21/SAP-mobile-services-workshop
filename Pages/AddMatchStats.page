@@ -133,7 +133,7 @@
 				"Clickable": true,
 				"SystemItem": "Save",
 				"Style": "",
-				"OnPress": "/nba/Actions/CRUD/Update/AddMatchStats.action"
+				"OnPress": "/nba/Actions/CRUD/Update/ConfirmEditStats.action"
 			}
 		]
 	}

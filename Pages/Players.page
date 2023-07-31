@@ -38,6 +38,9 @@
 					"DataPaging": {
 						"ShowLoadingIndicator": false,
 						"PageSize": 50
+					},
+					"Search": {
+						"Enabled": true
 					}
 				}
 			]
@@ -45,6 +48,6 @@
 	],
 	"_Type": "Page",
 	"_Name": "Players",
-	"Caption": "Players",
+	"Caption": "Jugadores",
 	"PrefersLargeCaption": true
 }

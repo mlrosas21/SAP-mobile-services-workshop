@@ -3,7 +3,7 @@
 	"ActionResult": {
 		"_Name": "SuccessAddMatchStats"
 	},
-	"Message": "Registro agregado exitosamente",
+	"Message": "Estadísticas modificadas exitosamente",
 	"OKCaption": "OK",
 	"OnOK": "/nba/Actions/ClosePage.action"
 }

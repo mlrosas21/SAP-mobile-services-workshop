@@ -1,0 +1,10 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "ConfirmEditStats"
+	},
+	"Message": "¿Está seguro que desea sobreescribir las estadísticas de {Apellido}?",
+	"OKCaption": "Sí",
+	"OnOK": "/nba/Actions/CRUD/Update/AddMatchStats.action",
+	"CancelCaption": "No"
+}

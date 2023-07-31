@@ -650,7 +650,7 @@ module.exports = function (i) {
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{PartidosJugados}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPartidos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Partidos jugados","Enabled":true},{"Value":"{Minutos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCMinutos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Minutos","KeyboardType":"Number","Enabled":true},{"Value":"{Puntos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPuntos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Puntos","KeyboardType":"Number","Enabled":true},{"Value":"{Dobles}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDobles","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dobles","KeyboardType":"Number","Enabled":true},{"Value":"{Triples}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCTriples","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Triples","KeyboardType":"Number","Enabled":true},{"Value":"{Asistencias}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCAsistencias","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Asistencias","KeyboardType":"Number","Enabled":true},{"Value":"{Rebotes}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCRebotes","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Rebotes","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"AddMatchStats","Caption":"Editar estadísticas totales","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Cancel","Position":"Left","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/ClosePage.action"}],"_Name":"ActionBar1"},"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"AddMatchStats","Caption":"Guardar","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","Style":"","OnPress":"/nba/Actions/CRUD/Update/AddMatchStats.action"}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{PartidosJugados}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPartidos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Partidos jugados","Enabled":true},{"Value":"{Minutos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCMinutos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Minutos","KeyboardType":"Number","Enabled":true},{"Value":"{Puntos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPuntos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Puntos","KeyboardType":"Number","Enabled":true},{"Value":"{Dobles}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDobles","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dobles","KeyboardType":"Number","Enabled":true},{"Value":"{Triples}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCTriples","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Triples","KeyboardType":"Number","Enabled":true},{"Value":"{Asistencias}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCAsistencias","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Asistencias","KeyboardType":"Number","Enabled":true},{"Value":"{Rebotes}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCRebotes","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Rebotes","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"AddMatchStats","Caption":"Editar estadísticas totales","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Cancel","Position":"Left","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/ClosePage.action"}],"_Name":"ActionBar1"},"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"AddMatchStats","Caption":"Guardar","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","Style":"","OnPress":"/nba/Actions/CRUD/Update/ConfirmEditStats.action"}]}}
 
 /***/ }),
 
@@ -740,7 +740,7 @@ module.exports = {"Controls":[{"Header":{"Headline":"NBA","Icon":"/nba/Images/nb
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ContactCell","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Name":"SectionContactCell0","Visible":true,"EmptySection":{"FooterVisible":false},"ContactCell":{"Visible":true,"ContextMenu":{"PerformFirstActionWithFullSwipe":true,"Items":[]},"DetailImage":"","Headline":"{Apellido}, {Nombre}","Subheadline":"{NombreEquipo}","Description":"Dorsal: {Dorsal} Posición: {Posicion}","OnPress":"/nba/Actions/NavToPlayerDetail.action","ActivityItems":[]},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50}}]}],"_Type":"Page","_Name":"Players","Caption":"Players","PrefersLargeCaption":true}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ContactCell","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Name":"SectionContactCell0","Visible":true,"EmptySection":{"FooterVisible":false},"ContactCell":{"Visible":true,"ContextMenu":{"PerformFirstActionWithFullSwipe":true,"Items":[]},"DetailImage":"","Headline":"{Apellido}, {Nombre}","Subheadline":"{NombreEquipo}","Description":"Dorsal: {Dorsal} Posición: {Posicion}","OnPress":"/nba/Actions/NavToPlayerDetail.action","ActivityItems":[]},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"Search":{"Enabled":true}}]}],"_Type":"Page","_Name":"Players","Caption":"Jugadores","PrefersLargeCaption":true}
 
 /***/ }),
 
@@ -951,6 +951,16 @@ module.exports = {"_Type":"Action.Type.ODataService.UpdateEntity","ActionResult"
 /***/ ((module) => {
 
 module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"ConfirmEdit"},"Message":"¿Desea editar la información equipo?","Title":"Confirmación","OKCaption":"Sí","OnOK":"/nba/Actions/CRUD/Update/UpdateTeam.action","CancelCaption":"No"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/CRUD/Update/ConfirmEditStats.action":
+/*!***************************************************************************!*\
+  !*** ./build.definitions/nba/Actions/CRUD/Update/ConfirmEditStats.action ***!
+  \***************************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"ConfirmEditStats"},"Message":"¿Está seguro que desea sobreescribir las estadísticas de {Apellido}?","OKCaption":"Sí","OnOK":"/nba/Actions/CRUD/Update/AddMatchStats.action","CancelCaption":"No"}
 
 /***/ }),
 
@@ -1240,7 +1250,7 @@ module.exports = {"_Type":"Action.Type.ApplicationUpdate","ActionResult":{"_Name
   \*******************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessAddMatchStats"},"Message":"Registro agregado exitosamente","OKCaption":"OK","OnOK":"/nba/Actions/ClosePage.action"}
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessAddMatchStats"},"Message":"Estadísticas modificadas exitosamente","OKCaption":"OK","OnOK":"/nba/Actions/ClosePage.action"}
 
 /***/ }),
 
@@ -1334,6 +1344,7 @@ let nba_actions_crud_delete_faildeleteteam_action = __webpack_require__(/*! ./nb
 let nba_actions_crud_delete_successdeleteteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/SuccessDeleteTeam.action */ "./build.definitions/nba/Actions/CRUD/Delete/SuccessDeleteTeam.action")
 let nba_actions_crud_update_addmatchstats_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/AddMatchStats.action */ "./build.definitions/nba/Actions/CRUD/Update/AddMatchStats.action")
 let nba_actions_crud_update_confirmedit_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/ConfirmEdit.action */ "./build.definitions/nba/Actions/CRUD/Update/ConfirmEdit.action")
+let nba_actions_crud_update_confirmeditstats_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/ConfirmEditStats.action */ "./build.definitions/nba/Actions/CRUD/Update/ConfirmEditStats.action")
 let nba_actions_crud_update_faileditteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/FailEditTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/FailEditTeam.action")
 let nba_actions_crud_update_successeditteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/SuccessEditTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/SuccessEditTeam.action")
 let nba_actions_crud_update_updateteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/UpdateTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/UpdateTeam.action")
@@ -1423,6 +1434,7 @@ module.exports = {
 	nba_actions_crud_delete_successdeleteteam_action : nba_actions_crud_delete_successdeleteteam_action,
 	nba_actions_crud_update_addmatchstats_action : nba_actions_crud_update_addmatchstats_action,
 	nba_actions_crud_update_confirmedit_action : nba_actions_crud_update_confirmedit_action,
+	nba_actions_crud_update_confirmeditstats_action : nba_actions_crud_update_confirmeditstats_action,
 	nba_actions_crud_update_faileditteam_action : nba_actions_crud_update_faileditteam_action,
 	nba_actions_crud_update_successeditteam_action : nba_actions_crud_update_successeditteam_action,
 	nba_actions_crud_update_updateteam_action : nba_actions_crud_update_updateteam_action,
