@@ -3,6 +3,7 @@
 	"ActionResult": {
 		"_Name": "CheckFieldsAddPlayer"
 	},
+	"OnFailure": "/nba/Actions/FailCheckFieldsAddPlayer.action",
 	"OnSuccess": "/nba/Rules/CheckPlayerData.js",
 	"RequiredFields": [
 		"DPFechaNacimiento",
@@ -11,6 +12,7 @@
 		"FCNombre",
 		"FCPeso",
 		"FCPosicion",
-		"LPNacionalidad"
+		"LPNacionalidad",
+		"FCAltura"
 	]
 }

@@ -1,0 +1,9 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "SuccessDeletePlayer"
+	},
+	"Message": "Se ha borrado exitosamente el jugador {Apellido}, {Nombre}",
+	"OKCaption": "Cerrar",
+	"OnOK": "/nba/Actions/ClosePage.action"
+}

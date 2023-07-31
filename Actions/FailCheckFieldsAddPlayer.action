@@ -1,0 +1,8 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "FailCheckFieldsAddPlayer"
+	},
+	"Message": "Por favor, complete todos los campos",
+	"OKCaption": "Cerrar"
+}

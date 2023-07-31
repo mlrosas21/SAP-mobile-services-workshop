@@ -1,0 +1,11 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "ConfirmDeletePlayer"
+	},
+	"OnSuccess": "/nba/Actions/CRUD/Delete/DeletePlayer.action",
+	"Message": "¿Está seguro que desea borrar el jugador {Apellido}?",
+	"Title": "Confirmación",
+	"OKCaption": "Sí",
+	"CancelCaption": "No"
+}

@@ -14,6 +14,16 @@
 					},
 					"Controls": [
 						{
+							"Value": "{PartidosJugados}",
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCPartidos",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Partidos jugados",
+							"Enabled": true
+						},
+						{
 							"Value": "{Minutos}",
 							"_Type": "Control.Type.FormCell.SimpleProperty",
 							"_Name": "FCMinutos",
@@ -96,17 +106,32 @@
 	},
 	"_Type": "Page",
 	"_Name": "AddMatchStats",
-	"Caption": "Agregar datos de partido",
+	"Caption": "Editar estadísticas totales",
 	"PrefersLargeCaption": true,
+	"ActionBar": {
+		"Items": [
+			{
+				"_Name": "ActionBarItem0",
+				"Caption": "Item",
+				"SystemItem": "Cancel",
+				"Position": "Left",
+				"IsIconCircular": false,
+				"Visible": true,
+				"OnPress": "/nba/Actions/ClosePage.action"
+			}
+		],
+		"_Name": "ActionBar1"
+	},
 	"ToolBar": {
 		"Items": [
 			{
 				"_Type": "Control.Type.ToolbarItem",
 				"_Name": "AddMatchStats",
-				"Caption": "Agregar",
+				"Caption": "Guardar",
 				"Enabled": true,
 				"Visible": true,
 				"Clickable": true,
+				"SystemItem": "Save",
 				"Style": "",
 				"OnPress": "/nba/Actions/CRUD/Update/AddMatchStats.action"
 			}

@@ -102,6 +102,17 @@
 							"PlaceHolder": "Ingrese el peso en kilogramos",
 							"KeyboardType": "Number",
 							"Enabled": true
+						},
+						{
+							"_Type": "Control.Type.FormCell.SimpleProperty",
+							"_Name": "FCAltura",
+							"IsEditable": true,
+							"IsVisible": true,
+							"Separator": true,
+							"Caption": "Altura (cm)",
+							"PlaceHolder": "Ingrese la altura en centímetros",
+							"KeyboardType": "Number",
+							"Enabled": true
 						}
 					],
 					"Visible": true,

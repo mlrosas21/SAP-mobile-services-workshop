@@ -7,6 +7,5 @@
 	"Title": "Confirmación",
 	"OKCaption": "OK",
 	"OnOK": "/nba/Actions/CRUD/Create/AddPlayer.action",
-	"CancelCaption": "Cancelar",
-	"OnCancel": "/nba/Actions/ClosePage.action"
+	"CancelCaption": "Cancelar"
 }

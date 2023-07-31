@@ -51,18 +51,18 @@
 	"_Type": "Page",
 	"_Name": "Detalle",
 	"Caption": "Detalle de jugador",
-	"ToolBar": {
+	"ActionBar": {
 		"Items": [
 			{
-				"_Type": "Control.Type.ToolbarItem",
-				"_Name": "ToolbarItem0",
-				"Caption": "Agregar datos de partido",
-				"Enabled": true,
+				"_Name": "ActionBarItem0",
+				"Caption": "Item",
+				"SystemItem": "Trash",
+				"Position": "Right",
+				"IsIconCircular": false,
 				"Visible": true,
-				"Clickable": true,
-				"Style": "",
-				"OnPress": "/nba/Actions/NavToAddMatchStats.action"
+				"OnPress": "/nba/Actions/CRUD/Delete/ConfirmDeletePlayer.action"
 			}
-		]
+		],
+		"_Name": "ActionBar1"
 	}
 }

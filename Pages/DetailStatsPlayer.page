@@ -126,7 +126,8 @@
 				"Enabled": true,
 				"Visible": true,
 				"Clickable": true,
-				"Style": ""
+				"Style": "",
+				"OnPress": "/nba/Actions/NavToAddMatchStats.action"
 			}
 		]
 	}

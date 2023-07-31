@@ -5,5 +5,5 @@
 	},
 	"Message": "Jugador agregado exitosamente",
 	"OKCaption": "Cerrar",
-	"OnOK": "/nba/Actions/ClosePage.action"
+	"OnOK": "/nba/Actions/Navigation/NavToDetail.action"
 }

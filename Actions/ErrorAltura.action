@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.ToastMessage",
+	"ActionResult": {
+		"_Name": "ErrorAltura"
+	},
+	"Message": "Por favor, ingrese una altura válida (entre 140 y 250 cm)"
+}

@@ -1,0 +1,7 @@
+{
+	"_Type": "Action.Type.Message",
+	"ActionResult": {
+		"_Name": "FailDeletePlayer"
+	},
+	"Message": "Error: "
+}

@@ -16,6 +16,7 @@
 		"Rebotes": "#Page:AddMatchStats/#Control:FCRebotes/#Value",
 		"Dobles": "#Page:AddMatchStats/#Control:FCDobles/#Value",
 		"Triples": "#Page:AddMatchStats/#Control:FCTriples/#Value",
-		"Minutos": "#Page:AddMatchStats/#Control:FCMinutos/#Value"
+		"Minutos": "#Page:AddMatchStats/#Control:FCMinutos/#Value",
+		"PartidosJugados": "#Page:AddMatchStats/#Control:FCPartidos/#Value"
 	}
 }

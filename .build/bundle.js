@@ -207,12 +207,13 @@ function CheckPlayerData(clientAPI) {
     const dFechaNacimiento = clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:DPFechaNacimiento').getValue();
     const iDorsal = clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:FCDorsal').getValue();
     const iPeso = parseInt(clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:FCPeso').getValue());
+    const iAltura = parseInt(clientAPI.evaluateTargetPathForAPI('#Page:AddPlayer/#Control:FCAltura').getValue());
 
     // check fecha nacimiento
-    const formattedFechaNac = new Date(dFechaNacimiento);
+    const oFechaNacimiento = new Date(dFechaNacimiento);
     const now = new Date();
     const eighteenYearsAgo = new Date(now.getFullYear() - 18, now.getMonth(), now.getDate());
-    if (formattedFechaNac < eighteenYearsAgo) {
+    if (oFechaNacimiento > eighteenYearsAgo) {
       // The player is under 18 years old
       clientAPI.executeAction('/nba/Actions/ErrorFechaNacimiento.action');
       return;
@@ -221,8 +222,12 @@ function CheckPlayerData(clientAPI) {
       clientAPI.executeAction('/nba/Actions/ErrorDorsal.action');
       return;
     }
-    if (iPeso > 200) {
+    if (iPeso > 200 || iPeso < 50) {
       clientAPI.executeAction('/nba/Actions/ErrorPeso.action');
+      return;
+    }
+    if (iAltura < 140 || iAltura > 250) {
+      clientAPI.executeAction('/nba/Actions/ErrorAltura.action');
       return;
     }
     clientAPI.executeAction('/nba/Actions/ConfirmAddPlayer.action');
@@ -230,6 +235,58 @@ function CheckPlayerData(clientAPI) {
     alert(error);
   }
 }
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Rules/CreateFilter.js":
+/*!*****************************************************!*\
+  !*** ./build.definitions/nba/Rules/CreateFilter.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CreateFilter)
+/* harmony export */ });
+/* harmony import */ var _Libs_FilterCommon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Libs/FilterCommon */ "./build.definitions/nba/Rules/Libs/FilterCommon.js");
+
+
+/**
+ * Describe this function...
+ * @param {IClientAPI} clientAPI
+ */
+function CreateFilter(clientAPI) {
+  try {
+    let aFilters = [];
+    const aEquipo = clientAPI.evaluateTargetPath('#Page:Players/#Control:FCEquipo');
+    if (aEquipo[0]) {
+      aFilters.push(_Libs_FilterCommon__WEBPACK_IMPORTED_MODULE_0__["default"].getQueryFilterEQ(clientAPI, 'NombreEquipo', `'${aEquipo[0].ReturnValue}'`));
+    }
+    return aFilters;
+  } catch (error) {
+    alert(error);
+  }
+}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Rules/Libs/FilterCommon.js":
+/*!**********************************************************!*\
+  !*** ./build.definitions/nba/Rules/Libs/FilterCommon.js ***!
+  \**********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (class {
+  static getQueryFilterEQ(clientAPI, sProperty, sValue) {
+    return clientAPI.createFilterCriteria(clientAPI.filterTypeEnum.Filter, undefined, undefined, [`${sProperty} eq ${sValue}`], true);
+  }
+});
 
 /***/ }),
 
@@ -283,6 +340,64 @@ function OnWillUpdate(clientAPI) {
       return Promise.reject('User Deferred');
     }
   });
+}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Rules/RefreshListPlayers.js":
+/*!***********************************************************!*\
+  !*** ./build.definitions/nba/Rules/RefreshListPlayers.js ***!
+  \***********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RefreshListaViajes)
+/* harmony export */ });
+function RefreshListaViajes(clientAPI) {
+  try {
+    if (clientAPI) {
+      if (clientAPI.getControls()) {
+        var controls = clientAPI.getControls();
+        for (var i = 0; i < controls.length; i++) {
+          controls[i].redraw();
+        }
+      }
+    }
+  } catch (error) {
+    alert(error);
+  }
+}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Rules/RefreshTeamData.js":
+/*!********************************************************!*\
+  !*** ./build.definitions/nba/Rules/RefreshTeamData.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ RefreshTeamData)
+/* harmony export */ });
+/**
+ * Describe this function...
+ * @param {IClientAPI} clientAPI
+ */
+function RefreshTeamData(clientAPI) {
+  try {
+    const oPage = clientAPI.evaluateTargetPathForAPI('#Page:DetailTeam');
+    // const oObjectCollection = clientAPI.evaluateTargetPathForAPI('#Page:DetailTeam/#Control:PlayerCollection')
+    oPage.redraw();
+    // oObjectCollection.redraw()
+
+    alert('redraw');
+  } catch (error) {
+    alert(error);
+  }
 }
 
 /***/ }),
@@ -535,7 +650,7 @@ module.exports = function (i) {
   \********************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{Minutos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCMinutos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Minutos","KeyboardType":"Number","Enabled":true},{"Value":"{Puntos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPuntos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Puntos","KeyboardType":"Number","Enabled":true},{"Value":"{Dobles}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDobles","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dobles","KeyboardType":"Number","Enabled":true},{"Value":"{Triples}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCTriples","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Triples","KeyboardType":"Number","Enabled":true},{"Value":"{Asistencias}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCAsistencias","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Asistencias","KeyboardType":"Number","Enabled":true},{"Value":"{Rebotes}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCRebotes","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Rebotes","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"AddMatchStats","Caption":"Agregar datos de partido","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"AddMatchStats","Caption":"Agregar","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Actions/CRUD/Update/AddMatchStats.action"}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{PartidosJugados}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPartidos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Partidos jugados","Enabled":true},{"Value":"{Minutos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCMinutos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Minutos","KeyboardType":"Number","Enabled":true},{"Value":"{Puntos}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPuntos","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Puntos","KeyboardType":"Number","Enabled":true},{"Value":"{Dobles}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDobles","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dobles","KeyboardType":"Number","Enabled":true},{"Value":"{Triples}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCTriples","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Triples","KeyboardType":"Number","Enabled":true},{"Value":"{Asistencias}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCAsistencias","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Asistencias","KeyboardType":"Number","Enabled":true},{"Value":"{Rebotes}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCRebotes","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Rebotes","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"AddMatchStats","Caption":"Editar estadísticas totales","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Cancel","Position":"Left","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/ClosePage.action"}],"_Name":"ActionBar1"},"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"AddMatchStats","Caption":"Guardar","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","Style":"","OnPress":"/nba/Actions/CRUD/Update/AddMatchStats.action"}]}}
 
 /***/ }),
 
@@ -545,7 +660,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \****************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDorsal","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dorsal","KeyboardType":"Number","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCNombre","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Nombre","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCApellido","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Apellido","Enabled":true},{"_Type":"Control.Type.FormCell.ListPicker","_Name":"LPNacionalidad","IsEditable":true,"IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Nacionalidad","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":false,"IsSearchCancelledAfterSelection":false,"AllowDefaultValueIfOneItem":false,"PickerItems":["Estados Unidos","Canada","Argentina","Francia","Grecia"]},{"_Type":"Control.Type.FormCell.DatePicker","_Name":"DPFechaNacimiento","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Fecha de nacimiento","Mode":"Date"},{"_Type":"Control.Type.FormCell.SegmentedControl","_Name":"FCPosicion","IsEditable":true,"IsVisible":true,"Separator":true,"ApportionsSegmentWidthsByContent":false,"Segments":{"Target":{"Service":"/nba/Services/NBA.service","EntitySet":"PosicionBaskSet"},"DisplayValue":"{DescPosicion}","ReturnValue":"{CodPosicion}"}},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPeso","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Peso (kg)","PlaceHolder":"Ingrese el peso en kilogramos","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"_Type":"Page","_Name":"AddPlayer","Caption":"Agregar Jugador","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Agregar","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","ItemType":"Button","Style":"","OnPress":"/nba/Actions/CheckFieldsAddPlayer.action"}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCDorsal","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Dorsal","KeyboardType":"Number","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCNombre","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Nombre","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCApellido","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Apellido","Enabled":true},{"_Type":"Control.Type.FormCell.ListPicker","_Name":"LPNacionalidad","IsEditable":true,"IsVisible":true,"Separator":true,"AllowMultipleSelection":false,"AllowEmptySelection":true,"Caption":"Nacionalidad","DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"PickerPrompt":"Please select one single item","IsSelectedSectionEnabled":false,"IsPickerDismissedOnSelection":false,"IsSearchCancelledAfterSelection":false,"AllowDefaultValueIfOneItem":false,"PickerItems":["Estados Unidos","Canada","Argentina","Francia","Grecia"]},{"_Type":"Control.Type.FormCell.DatePicker","_Name":"DPFechaNacimiento","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Fecha de nacimiento","Mode":"Date"},{"_Type":"Control.Type.FormCell.SegmentedControl","_Name":"FCPosicion","IsEditable":true,"IsVisible":true,"Separator":true,"ApportionsSegmentWidthsByContent":false,"Segments":{"Target":{"Service":"/nba/Services/NBA.service","EntitySet":"PosicionBaskSet"},"DisplayValue":"{DescPosicion}","ReturnValue":"{CodPosicion}"}},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCPeso","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Peso (kg)","PlaceHolder":"Ingrese el peso en kilogramos","KeyboardType":"Number","Enabled":true},{"_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCAltura","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Altura (cm)","PlaceHolder":"Ingrese la altura en centímetros","KeyboardType":"Number","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"_Type":"Page","_Name":"AddPlayer","Caption":"Agregar Jugador","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Agregar","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","ItemType":"Button","Style":"","OnPress":"/nba/Actions/CheckFieldsAddPlayer.action"}]}}
 
 /***/ }),
 
@@ -575,7 +690,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \*******************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{PosicionDesc}","Description":"{NombreEquipo}","DetailImage":"sap-icon://person-placeholder","DetailImageIsCircular":false,"HeadlineText":"{Apellido}, {Nombre}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true}]},{"_Type":"Control.Type.Tabs","_Name":"Tabs0","Items":[{"_Type":"Control.Type.TabItem","Caption":"Información Personal","Image":"sap-icon://information","PageToOpen":"/nba/Pages/DetailInfoPlayer.page","_Name":"Info"},{"_Type":"Control.Type.TabItem","Caption":"Estadísticas","Image":"sap-icon://business-objects-experience","PageToOpen":"/nba/Pages/DetailStatsPlayer.page","_Name":"Stats"}],"Position":"Top","TabStripType":"Normal"}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"Detalle","Caption":"Detalle de jugador","ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Agregar datos de partido","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Actions/NavToAddMatchStats.action"}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{PosicionDesc}","Description":"{NombreEquipo}","DetailImage":"sap-icon://person-placeholder","DetailImageIsCircular":false,"HeadlineText":"{Apellido}, {Nombre}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true}]},{"_Type":"Control.Type.Tabs","_Name":"Tabs0","Items":[{"_Type":"Control.Type.TabItem","Caption":"Información Personal","Image":"sap-icon://information","PageToOpen":"/nba/Pages/DetailInfoPlayer.page","_Name":"Info"},{"_Type":"Control.Type.TabItem","Caption":"Estadísticas","Image":"sap-icon://business-objects-experience","PageToOpen":"/nba/Pages/DetailStatsPlayer.page","_Name":"Stats"}],"Position":"Top","TabStripType":"Normal"}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"Detalle","Caption":"Detalle de jugador","ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Trash","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/CRUD/Delete/ConfirmDeletePlayer.action"}],"_Name":"ActionBar1"}}
 
 /***/ }),
 
@@ -585,7 +700,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \************************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"KPIHeader":{"KPIItems":[{"_Name":"KPIItem6","CaptionLabel":"Partidos jugados","MetricItems":[{"Value":"{PartidosJugados}","_Name":"KPIItem6MetricItem0"}],"ShowProgress":false}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer","Visible":true,"KPIItems":[{"_Name":"KPIItem0","CaptionLabel":"PPG","MetricItems":[{"Value":"{PPG}","_Name":"KPIItem0MetricItem0"}],"ShowProgress":false},{"_Name":"KPIItem2","CaptionLabel":"DPG","MetricItems":[{"Value":"{DPG}","_Name":"KPIItem2MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer ","Visible":true,"KPIItems":[{"_Name":"KPIItem3","CaptionLabel":"TPG","MetricItems":[{"Value":"{TPG}","_Name":"KPIItem3MetricItem0"}]},{"_Name":"KPIItem1","CaptionLabel":"APG","MetricItems":[{"Value":"{APG}","_Name":"KPIItem1MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer  ","Visible":true,"KPIItems":[{"_Name":"KPIItem5","CaptionLabel":"RPG","MetricItems":[{"Value":"{RPG}","_Name":"KPIItem5MetricItem0"}]},{"_Name":"KPIItem4","CaptionLabel":"MPG","MetricItems":[{"Value":"{MPG}","_Name":"KPIItem4MetricItem0"}]}]}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"DetailStatsPlayer","Caption":"Estadísticas","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Editar estadisticas","Enabled":true,"Visible":true,"Clickable":true,"Style":""}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"KPIHeader":{"KPIItems":[{"_Name":"KPIItem6","CaptionLabel":"Partidos jugados","MetricItems":[{"Value":"{PartidosJugados}","_Name":"KPIItem6MetricItem0"}],"ShowProgress":false}]},"_Type":"Section.Type.KPIHeader","_Name":"SectionKPIHeader0","Visible":true},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer","Visible":true,"KPIItems":[{"_Name":"KPIItem0","CaptionLabel":"PPG","MetricItems":[{"Value":"{PPG}","_Name":"KPIItem0MetricItem0"}],"ShowProgress":false},{"_Name":"KPIItem2","CaptionLabel":"DPG","MetricItems":[{"Value":"{DPG}","_Name":"KPIItem2MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer ","Visible":true,"KPIItems":[{"_Name":"KPIItem3","CaptionLabel":"TPG","MetricItems":[{"Value":"{TPG}","_Name":"KPIItem3MetricItem0"}]},{"_Name":"KPIItem1","CaptionLabel":"APG","MetricItems":[{"Value":"{APG}","_Name":"KPIItem1MetricItem0"}]}]},{"_Type":"Section.Type.KPISection","_Name":"StatsContainer  ","Visible":true,"KPIItems":[{"_Name":"KPIItem5","CaptionLabel":"RPG","MetricItems":[{"Value":"{RPG}","_Name":"KPIItem5MetricItem0"}]},{"_Name":"KPIItem4","CaptionLabel":"MPG","MetricItems":[{"Value":"{MPG}","_Name":"KPIItem4MetricItem0"}]}]}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Type":"Page","_Name":"DetailStatsPlayer","Caption":"Estadísticas","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Editar estadisticas","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Actions/NavToAddMatchStats.action"}]}}
 
 /***/ }),
 
@@ -595,7 +710,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \*****************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{Ciudad}, {EstadoDesc}","DetailImage":"{Logo}","DetailImageIsCircular":false,"BodyText":"Head coach: {Entrenador}","HeadlineText":"{NombreEquipo}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"{@odata.readLink}/To_Jugadores"},"_Name":"PlayerCollection","Visible":true,"EmptySection":{"FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"Card":{"Visible":true,"Title":"{Apellido}, {Nombre}","Subhead":"Dorsal #{Dorsal}","Footnote":"{PosicionDesc}","DetailImage":"sap-icon://person-placeholder","DetailImageIsCircular":false,"OverflowButtons":[],"PrimaryAction":{"OnPress":"/nba/Actions/NavToPlayerDetail.action","Style":"","Title":"Ver info","Visible":true},"SecondaryAction":{"Style":"","Title":"","Visible":false},"_Type":"Control.Type.ObjectCard"},"Layout":{"LayoutType":"Vertical"}}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Type":"Page","_Name":"DetailTeam","Caption":"Detalle de equipo","PrefersLargeCaption":true,"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Añadir jugador","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Rules/AddPlayer.js"}]}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"{@odata.readLink}/To_Jugadores","ReadLink":"{@odata.readLink}"},"_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{Ciudad}, {EstadoDesc}","StatusImage":"/nba/Images/nba-logo.png","DetailImage":"{Logo}","DetailImageIsCircular":false,"BodyText":"Head coach: {Entrenador}","HeadlineText":"{NombreEquipo}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectCardCollection","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"{@odata.readLink}/To_Jugadores","ReadLink":"{@odata.readLink}"},"_Name":"PlayerCollection","Visible":true,"EmptySection":{"FooterVisible":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"Card":{"Visible":true,"Title":"{Apellido}, {Nombre}","Subhead":"Dorsal #{Dorsal}","Footnote":"{PosicionDesc}","DetailImage":"sap-icon://person-placeholder","DetailImageIsCircular":false,"OverflowButtons":[],"PrimaryAction":{"OnPress":"/nba/Actions/NavToPlayerDetail.action","Style":"","Title":"Ver info","Visible":true},"SecondaryAction":{"Style":"","Title":"","Visible":false},"_Type":"Control.Type.ObjectCard"},"Layout":{"LayoutType":"Vertical"}}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Type":"Page","DataSubscriptions":["JugadorSet","EquipoSet","/nba/Services/NBA.service","EquipoSet/To_Jugadores"],"_Name":"DetailTeam","Caption":"Detalle de equipo","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Refresh","Position":"Right","IsIconCircular":false,"Visible":false,"OnPress":"/nba/Rules/RefreshTeamData.js"}],"_Name":"ActionBar1"},"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"Añadir jugador","Enabled":true,"Visible":true,"Clickable":true,"Style":"","OnPress":"/nba/Rules/AddPlayer.js"}]}}
 
 /***/ }),
 
@@ -605,7 +720,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \***************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","ObjectHeader":{"Subhead":"{Ciudad} ({EstadoDesc})","StatusText":"{Estado}","DetailImage":"{Logo}","DetailImageIsCircular":false,"HeadlineText":"{NombreEquipo}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{Entrenador}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCEntrenador","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Entrenador","PlaceHolder":"PlaceHolder","Enabled":true},{"Value":"{Logo}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCLogo","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"URL de Logo","PlaceHolder":"PlaceHolder","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"_Type":"Page","_Name":"EditTeam","Caption":"Información","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Cancel","Position":"Left","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/ClosePage.action"}],"_Name":"ActionBar1"},"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"ToolbarItem","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","Style":"","OnPress":"/nba/Actions/CRUD/Update/ConfirmEdit.action"}]},"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"ObjectHeader":{"Subhead":"{Ciudad} ({EstadoDesc})","StatusText":"{Estado}","DetailImage":"{Logo}","DetailImageIsCircular":false,"HeadlineText":"{NombreEquipo}","StatusPosition":"Stacked","StatusImagePosition":"Leading","SubstatusImagePosition":"Leading"},"_Type":"Section.Type.ObjectHeader","_Name":"SectionObjectHeader0","Visible":true},{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"Controls":[{"Value":"{Entrenador}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCEntrenador","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"Entrenador","Enabled":true},{"Value":"{Logo}","_Type":"Control.Type.FormCell.SimpleProperty","_Name":"FCLogo","IsEditable":true,"IsVisible":true,"Separator":true,"Caption":"URL de Logo","Enabled":true}],"Visible":true,"EmptySection":{"FooterVisible":false},"_Type":"Section.Type.FormCell","_Name":"SectionFormCell0"}]}],"DesignTimeTarget":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Type":"Page","_Name":"EditTeam","Caption":"Información","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Item","SystemItem":"Cancel","Position":"Left","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/ClosePage.action"}],"_Name":"ActionBar1"},"ToolBar":{"Items":[{"_Type":"Control.Type.ToolbarItem","_Name":"ToolbarItem0","Caption":"ToolbarItem","Enabled":true,"Visible":true,"Clickable":true,"SystemItem":"Save","Style":"","OnPress":"/nba/Actions/CRUD/Update/ConfirmEdit.action"}]}}
 
 /***/ }),
 
@@ -625,7 +740,7 @@ module.exports = {"Controls":[{"Header":{"Headline":"NBA","Icon":"/nba/Images/nb
   \**************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"_Type":"Section.Type.ContactCell","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Name":"SectionContactCell0","Visible":true,"EmptySection":{"FooterVisible":false},"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"ContactCell":{"ContextMenu":{"PerformFirstActionWithFullSwipe":true,"Items":[]},"DetailImage":"","Headline":"{Apellido}, {Nombre}","Subheadline":"{NombreEquipo}","Description":"Dorsal: {Dorsal} Posición: {Posicion}","ActivityItems":[]}}]}],"_Type":"Page","_Name":"Players","Caption":"Players","PrefersLargeCaption":true}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ContactCell","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"_Name":"SectionContactCell0","Visible":true,"EmptySection":{"FooterVisible":false},"ContactCell":{"Visible":true,"ContextMenu":{"PerformFirstActionWithFullSwipe":true,"Items":[]},"DetailImage":"","Headline":"{Apellido}, {Nombre}","Subheadline":"{NombreEquipo}","Description":"Dorsal: {Dorsal} Posición: {Posicion}","OnPress":"/nba/Actions/NavToPlayerDetail.action","ActivityItems":[]},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50}}]}],"_Type":"Page","_Name":"Players","Caption":"Players","PrefersLargeCaption":true}
 
 /***/ }),
 
@@ -635,7 +750,7 @@ module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"Se
   \************************************************/
 /***/ ((module) => {
 
-module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Name":"SectionObjectTable0","Visible":true,"EmptySection":{"FooterVisible":false,"Style":"test"},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true},"Title":"{NombreEquipo}","Subhead":"{Ciudad}","DisplayDescriptionInMobile":true,"PreserveIconStackSpacing":false,"AccessoryType":"detailButton","AccessoryButtonIcon":"sap-icon://show-edit","ProgressIndicator":"inProgress","Tags":[{"Color":"Grey","Text":"{Estado}"}],"AvatarStack":{"Avatars":[{"Image":"{Logo}"}],"ImageIsCircular":false,"ImageHasBorder":false},"AvatarGrid":{"Avatars":[],"ImageIsCircular":true},"OnPress":"/nba/Actions/Navigation/NavToDetail.action","OnAccessoryButtonPress":"/nba/Actions/MenuTeam.action","Selected":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"HighlightSelectedItem":false,"Selection":{"ExitOnLastDeselect":true,"LongPressToEnable":"None","Mode":"None"}}]}],"_Type":"Page","_Name":"Teams","Caption":"Equipos","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Add","Icon":"sap-icon://add","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/CRUD/Create/NavToAddTeam.action"}],"_Name":"ActionBar1"}}
+module.exports = {"Controls":[{"_Type":"Control.Type.SectionedTable","_Name":"SectionedTable0","Sections":[{"Separators":{"TopSectionSeparator":false,"BottomSectionSeparator":true,"HeaderSeparator":true,"FooterSeparator":true,"ControlSeparator":true},"_Type":"Section.Type.ObjectTable","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"EquipoSet"},"_Name":"SectionObjectTable0","Visible":true,"EmptySection":{"FooterVisible":false,"Style":"test"},"ObjectCell":{"ContextMenu":{"Items":[],"PerformFirstActionWithFullSwipe":true},"Title":"{NombreEquipo}","Subhead":"{Ciudad}","DisplayDescriptionInMobile":true,"PreserveIconStackSpacing":false,"AccessoryType":"detailButton","AccessoryButtonIcon":"sap-icon://show-edit","ProgressIndicator":"inProgress","Tags":[{"Color":"Grey","Text":"{Estado}"}],"AvatarStack":{"Avatars":[{"Image":"{Logo}"}],"ImageIsCircular":false,"ImageHasBorder":false,"BadgeImage":"/nba/Images/nba-logo.png"},"AvatarGrid":{"Avatars":[],"ImageIsCircular":true},"OnPress":"/nba/Actions/Navigation/NavToDetail.action","OnAccessoryButtonPress":"/nba/Actions/MenuTeam.action","Selected":false},"DataPaging":{"ShowLoadingIndicator":false,"PageSize":50},"HighlightSelectedItem":false,"Selection":{"ExitOnLastDeselect":true,"LongPressToEnable":"None","Mode":"None"}}]}],"_Type":"Page","_Name":"Teams","Caption":"Equipos","PrefersLargeCaption":true,"ActionBar":{"Items":[{"_Name":"ActionBarItem0","Caption":"Add","Icon":"sap-icon://add","Position":"Right","IsIconCircular":false,"Visible":true,"OnPress":"/nba/Actions/CRUD/Create/NavToAddTeam.action"}],"_Name":"ActionBar1"}}
 
 /***/ }),
 
@@ -695,7 +810,7 @@ module.exports = {"Animated":true,"Duration":2,"Message":"Update application com
   \********************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.ODataService.CreateEntity","ActionResult":{"_Name":"AddPlayerResult"},"OnFailure":"/nba/Actions/FailAddPlayer.action","OnSuccess":"/nba/Rules/SuccessAddPlayer.js","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"Properties":{"NombreEquipo":"#Page:DetailTeam/#ClientData/NombreEquipo","Dorsal":"#Page:AddPlayer/#Control:FCDorsal/#Value","Posicion":"#Page:AddPlayer/#Control:FCPosicion/#SelectedValue","Nombre":"#Page:AddPlayer/#Control:FCNombre/#Value","Apellido":"#Page:AddPlayer/#Control:FCApellido/#Value","Peso":"#Control:FCPeso/#Value","FechaDeNacimiento":"#Page:AddPlayer/#Control:DPFechaNacimiento/#Value","Nacionalidad":"#Page:AddPlayer/#Control:LPNacionalidad/#SelectedValue"}}
+module.exports = {"_Type":"Action.Type.ODataService.CreateEntity","ActionResult":{"_Name":"AddPlayerResult"},"OnFailure":"/nba/Actions/FailAddPlayer.action","OnSuccess":"/nba/Actions/SuccessAddPlayer.action","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet"},"Properties":{"NombreEquipo":"#Page:DetailTeam/#ClientData/NombreEquipo","Dorsal":"#Page:AddPlayer/#Control:FCDorsal/#Value","Posicion":"#Page:AddPlayer/#Control:FCPosicion/#SelectedValue","Nombre":"#Page:AddPlayer/#Control:FCNombre/#Value","Apellido":"#Page:AddPlayer/#Control:FCApellido/#Value","Altura":"#Control:FCAltura/#Value","Peso":"#Control:FCPeso/#Value","FechaDeNacimiento":"#Page:AddPlayer/#Control:DPFechaNacimiento/#Value","Nacionalidad":"#Page:AddPlayer/#Control:LPNacionalidad/#SelectedValue"}}
 
 /***/ }),
 
@@ -769,6 +884,26 @@ module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"Confirm
 
 /***/ }),
 
+/***/ "./build.definitions/nba/Actions/CRUD/Delete/ConfirmDeletePlayer.action":
+/*!******************************************************************************!*\
+  !*** ./build.definitions/nba/Actions/CRUD/Delete/ConfirmDeletePlayer.action ***!
+  \******************************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"ConfirmDeletePlayer"},"OnSuccess":"/nba/Actions/CRUD/Delete/DeletePlayer.action","Message":"¿Está seguro que desea borrar el jugador {Apellido}?","Title":"Confirmación","OKCaption":"Sí","CancelCaption":"No"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/CRUD/Delete/DeletePlayer.action":
+/*!***********************************************************************!*\
+  !*** ./build.definitions/nba/Actions/CRUD/Delete/DeletePlayer.action ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ODataService.DeleteEntity","ActionResult":{"_Name":"DeletePlayerResult"},"OnFailure":"/nba/Actions/FailDeletePlayer.action","OnSuccess":"/nba/Actions/SuccessDeletePlayer.action","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet","ReadLink":"{@odata.readLink}"}}
+
+/***/ }),
+
 /***/ "./build.definitions/nba/Actions/CRUD/Delete/DeleteTeam.action":
 /*!*********************************************************************!*\
   !*** ./build.definitions/nba/Actions/CRUD/Delete/DeleteTeam.action ***!
@@ -805,7 +940,7 @@ module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"Success
   \************************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.ODataService.UpdateEntity","ActionResult":{"_Name":"AddMatchStatsResult"},"OnFailure":"/nba/Actions/FailAddMatchStats.action","OnSuccess":"/nba/Actions/SuccessAddMatchStats.action","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet","ReadLink":"{@odata.readLink}"},"Properties":{"Puntos":"#Page:AddMatchStats/#Control:FCPuntos/#Value","Asistencias":"#Page:AddMatchStats/#Control:FCAsistencias/#Value","Rebotes":"#Page:AddMatchStats/#Control:FCRebotes/#Value","Dobles":"#Page:AddMatchStats/#Control:FCDobles/#Value","Triples":"#Page:AddMatchStats/#Control:FCTriples/#Value","Minutos":"#Page:AddMatchStats/#Control:FCMinutos/#Value"}}
+module.exports = {"_Type":"Action.Type.ODataService.UpdateEntity","ActionResult":{"_Name":"AddMatchStatsResult"},"OnFailure":"/nba/Actions/FailAddMatchStats.action","OnSuccess":"/nba/Actions/SuccessAddMatchStats.action","Target":{"Service":"/nba/Services/NBA.service","EntitySet":"JugadorSet","ReadLink":"{@odata.readLink}"},"Properties":{"Puntos":"#Page:AddMatchStats/#Control:FCPuntos/#Value","Asistencias":"#Page:AddMatchStats/#Control:FCAsistencias/#Value","Rebotes":"#Page:AddMatchStats/#Control:FCRebotes/#Value","Dobles":"#Page:AddMatchStats/#Control:FCDobles/#Value","Triples":"#Page:AddMatchStats/#Control:FCTriples/#Value","Minutos":"#Page:AddMatchStats/#Control:FCMinutos/#Value","PartidosJugados":"#Page:AddMatchStats/#Control:FCPartidos/#Value"}}
 
 /***/ }),
 
@@ -855,7 +990,7 @@ module.exports = {"_Type":"Action.Type.ODataService.UpdateEntity","ActionResult"
   \*******************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.CheckRequiredFields","ActionResult":{"_Name":"CheckFieldsAddPlayer"},"OnSuccess":"/nba/Rules/CheckPlayerData.js","RequiredFields":["DPFechaNacimiento","FCApellido","FCDorsal","FCNombre","FCPeso","FCPosicion","LPNacionalidad"]}
+module.exports = {"_Type":"Action.Type.CheckRequiredFields","ActionResult":{"_Name":"CheckFieldsAddPlayer"},"OnFailure":"/nba/Actions/FailCheckFieldsAddPlayer.action","OnSuccess":"/nba/Rules/CheckPlayerData.js","RequiredFields":["DPFechaNacimiento","FCApellido","FCDorsal","FCNombre","FCPeso","FCPosicion","LPNacionalidad","FCAltura"]}
 
 /***/ }),
 
@@ -885,7 +1020,17 @@ module.exports = {"_Type":"Action.Type.ClosePage"}
   \***************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"ConfirmAddPlayer"},"Message":"¿Desea agregar el jugador a {NombreEquipo}?","Title":"Confirmación","OKCaption":"OK","OnOK":"/nba/Actions/CRUD/Create/AddPlayer.action","CancelCaption":"Cancelar","OnCancel":"/nba/Actions/ClosePage.action"}
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"ConfirmAddPlayer"},"Message":"¿Desea agregar el jugador a {NombreEquipo}?","Title":"Confirmación","OKCaption":"OK","OnOK":"/nba/Actions/CRUD/Create/AddPlayer.action","CancelCaption":"Cancelar"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/ErrorAltura.action":
+/*!**********************************************************!*\
+  !*** ./build.definitions/nba/Actions/ErrorAltura.action ***!
+  \**********************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.ToastMessage","ActionResult":{"_Name":"ErrorAltura"},"Message":"Por favor, ingrese una altura válida (entre 140 y 250 cm)"}
 
 /***/ }),
 
@@ -936,6 +1081,26 @@ module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"FailAdd
 /***/ ((module) => {
 
 module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"FailAddPlayer"},"Message":"Error: {#ActionResults:AddPlayerResult/error}","OKCaption":"Cerrar"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/FailCheckFieldsAddPlayer.action":
+/*!***********************************************************************!*\
+  !*** ./build.definitions/nba/Actions/FailCheckFieldsAddPlayer.action ***!
+  \***********************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"FailCheckFieldsAddPlayer"},"Message":"Por favor, complete todos los campos","OKCaption":"Cerrar"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/FailDeletePlayer.action":
+/*!***************************************************************!*\
+  !*** ./build.definitions/nba/Actions/FailDeletePlayer.action ***!
+  \***************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"FailDeletePlayer"},"Message":"Error: "}
 
 /***/ }),
 
@@ -1085,7 +1250,17 @@ module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"Success
   \***************************************************************/
 /***/ ((module) => {
 
-module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessAddPlayer"},"Message":"Jugador agregado exitosamente","OKCaption":"Cerrar","OnOK":"/nba/Actions/ClosePage.action"}
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessAddPlayer"},"Message":"Jugador agregado exitosamente","OKCaption":"Cerrar","OnOK":"/nba/Actions/Navigation/NavToDetail.action"}
+
+/***/ }),
+
+/***/ "./build.definitions/nba/Actions/SuccessDeletePlayer.action":
+/*!******************************************************************!*\
+  !*** ./build.definitions/nba/Actions/SuccessDeletePlayer.action ***!
+  \******************************************************************/
+/***/ ((module) => {
+
+module.exports = {"_Type":"Action.Type.Message","ActionResult":{"_Name":"SuccessDeletePlayer"},"Message":"Se ha borrado exitosamente el jugador {Apellido}, {Nombre}","OKCaption":"Cerrar","OnOK":"/nba/Actions/ClosePage.action"}
 
 /***/ }),
 
@@ -1152,6 +1327,8 @@ let nba_actions_crud_create_failcheckrequiredfields_action = __webpack_require__
 let nba_actions_crud_create_navtoaddteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Create/NavToAddTeam.action */ "./build.definitions/nba/Actions/CRUD/Create/NavToAddTeam.action")
 let nba_actions_crud_create_successaddteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Create/SuccessAddTeam.action */ "./build.definitions/nba/Actions/CRUD/Create/SuccessAddTeam.action")
 let nba_actions_crud_delete_confirmdelete_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/ConfirmDelete.action */ "./build.definitions/nba/Actions/CRUD/Delete/ConfirmDelete.action")
+let nba_actions_crud_delete_confirmdeleteplayer_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/ConfirmDeletePlayer.action */ "./build.definitions/nba/Actions/CRUD/Delete/ConfirmDeletePlayer.action")
+let nba_actions_crud_delete_deleteplayer_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/DeletePlayer.action */ "./build.definitions/nba/Actions/CRUD/Delete/DeletePlayer.action")
 let nba_actions_crud_delete_deleteteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/DeleteTeam.action */ "./build.definitions/nba/Actions/CRUD/Delete/DeleteTeam.action")
 let nba_actions_crud_delete_faildeleteteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/FailDeleteTeam.action */ "./build.definitions/nba/Actions/CRUD/Delete/FailDeleteTeam.action")
 let nba_actions_crud_delete_successdeleteteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Delete/SuccessDeleteTeam.action */ "./build.definitions/nba/Actions/CRUD/Delete/SuccessDeleteTeam.action")
@@ -1160,11 +1337,14 @@ let nba_actions_crud_update_confirmedit_action = __webpack_require__(/*! ./nba/A
 let nba_actions_crud_update_faileditteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/FailEditTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/FailEditTeam.action")
 let nba_actions_crud_update_successeditteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/SuccessEditTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/SuccessEditTeam.action")
 let nba_actions_crud_update_updateteam_action = __webpack_require__(/*! ./nba/Actions/CRUD/Update/UpdateTeam.action */ "./build.definitions/nba/Actions/CRUD/Update/UpdateTeam.action")
+let nba_actions_erroraltura_action = __webpack_require__(/*! ./nba/Actions/ErrorAltura.action */ "./build.definitions/nba/Actions/ErrorAltura.action")
 let nba_actions_errordorsal_action = __webpack_require__(/*! ./nba/Actions/ErrorDorsal.action */ "./build.definitions/nba/Actions/ErrorDorsal.action")
 let nba_actions_errorfechanacimiento_action = __webpack_require__(/*! ./nba/Actions/ErrorFechaNacimiento.action */ "./build.definitions/nba/Actions/ErrorFechaNacimiento.action")
 let nba_actions_errorpeso_action = __webpack_require__(/*! ./nba/Actions/ErrorPeso.action */ "./build.definitions/nba/Actions/ErrorPeso.action")
 let nba_actions_failaddmatchstats_action = __webpack_require__(/*! ./nba/Actions/FailAddMatchStats.action */ "./build.definitions/nba/Actions/FailAddMatchStats.action")
 let nba_actions_failaddplayer_action = __webpack_require__(/*! ./nba/Actions/FailAddPlayer.action */ "./build.definitions/nba/Actions/FailAddPlayer.action")
+let nba_actions_failcheckfieldsaddplayer_action = __webpack_require__(/*! ./nba/Actions/FailCheckFieldsAddPlayer.action */ "./build.definitions/nba/Actions/FailCheckFieldsAddPlayer.action")
+let nba_actions_faildeleteplayer_action = __webpack_require__(/*! ./nba/Actions/FailDeletePlayer.action */ "./build.definitions/nba/Actions/FailDeletePlayer.action")
 let nba_actions_logout_action = __webpack_require__(/*! ./nba/Actions/Logout.action */ "./build.definitions/nba/Actions/Logout.action")
 let nba_actions_logoutmessage_action = __webpack_require__(/*! ./nba/Actions/LogoutMessage.action */ "./build.definitions/nba/Actions/LogoutMessage.action")
 let nba_actions_menuteam_action = __webpack_require__(/*! ./nba/Actions/MenuTeam.action */ "./build.definitions/nba/Actions/MenuTeam.action")
@@ -1180,6 +1360,7 @@ let nba_actions_service_initializeonlinesuccessmessage_action = __webpack_requir
 let nba_actions_sincronizar_action = __webpack_require__(/*! ./nba/Actions/Sincronizar.action */ "./build.definitions/nba/Actions/Sincronizar.action")
 let nba_actions_successaddmatchstats_action = __webpack_require__(/*! ./nba/Actions/SuccessAddMatchStats.action */ "./build.definitions/nba/Actions/SuccessAddMatchStats.action")
 let nba_actions_successaddplayer_action = __webpack_require__(/*! ./nba/Actions/SuccessAddPlayer.action */ "./build.definitions/nba/Actions/SuccessAddPlayer.action")
+let nba_actions_successdeleteplayer_action = __webpack_require__(/*! ./nba/Actions/SuccessDeletePlayer.action */ "./build.definitions/nba/Actions/SuccessDeletePlayer.action")
 let nba_globals_appdefinition_version_global = __webpack_require__(/*! ./nba/Globals/AppDefinition_Version.global */ "./build.definitions/nba/Globals/AppDefinition_Version.global")
 let nba_i18n_i18n_properties = __webpack_require__(/*! ./nba/i18n/i18n.properties */ "./build.definitions/nba/i18n/i18n.properties")
 let nba_images_nba__logo_png = __webpack_require__(/*! ./nba/Images/nba-logo.png */ "./build.definitions/nba/Images/nba-logo.png")
@@ -1200,8 +1381,12 @@ let nba_rules_addplayer_js = __webpack_require__(/*! ./nba/Rules/AddPlayer.js */
 let nba_rules_appupdatefailure_js = __webpack_require__(/*! ./nba/Rules/AppUpdateFailure.js */ "./build.definitions/nba/Rules/AppUpdateFailure.js")
 let nba_rules_appupdatesuccess_js = __webpack_require__(/*! ./nba/Rules/AppUpdateSuccess.js */ "./build.definitions/nba/Rules/AppUpdateSuccess.js")
 let nba_rules_checkplayerdata_js = __webpack_require__(/*! ./nba/Rules/CheckPlayerData.js */ "./build.definitions/nba/Rules/CheckPlayerData.js")
+let nba_rules_createfilter_js = __webpack_require__(/*! ./nba/Rules/CreateFilter.js */ "./build.definitions/nba/Rules/CreateFilter.js")
+let nba_rules_libs_filtercommon_js = __webpack_require__(/*! ./nba/Rules/Libs/FilterCommon.js */ "./build.definitions/nba/Rules/Libs/FilterCommon.js")
 let nba_rules_loadimage_js = __webpack_require__(/*! ./nba/Rules/LoadImage.js */ "./build.definitions/nba/Rules/LoadImage.js")
 let nba_rules_onwillupdate_js = __webpack_require__(/*! ./nba/Rules/OnWillUpdate.js */ "./build.definitions/nba/Rules/OnWillUpdate.js")
+let nba_rules_refreshlistplayers_js = __webpack_require__(/*! ./nba/Rules/RefreshListPlayers.js */ "./build.definitions/nba/Rules/RefreshListPlayers.js")
+let nba_rules_refreshteamdata_js = __webpack_require__(/*! ./nba/Rules/RefreshTeamData.js */ "./build.definitions/nba/Rules/RefreshTeamData.js")
 let nba_rules_resetappsettingsandlogout_js = __webpack_require__(/*! ./nba/Rules/ResetAppSettingsAndLogout.js */ "./build.definitions/nba/Rules/ResetAppSettingsAndLogout.js")
 let nba_rules_successaddplayer_js = __webpack_require__(/*! ./nba/Rules/SuccessAddPlayer.js */ "./build.definitions/nba/Rules/SuccessAddPlayer.js")
 let nba_services_nba_service = __webpack_require__(/*! ./nba/Services/NBA.service */ "./build.definitions/nba/Services/NBA.service")
@@ -1231,6 +1416,8 @@ module.exports = {
 	nba_actions_crud_create_navtoaddteam_action : nba_actions_crud_create_navtoaddteam_action,
 	nba_actions_crud_create_successaddteam_action : nba_actions_crud_create_successaddteam_action,
 	nba_actions_crud_delete_confirmdelete_action : nba_actions_crud_delete_confirmdelete_action,
+	nba_actions_crud_delete_confirmdeleteplayer_action : nba_actions_crud_delete_confirmdeleteplayer_action,
+	nba_actions_crud_delete_deleteplayer_action : nba_actions_crud_delete_deleteplayer_action,
 	nba_actions_crud_delete_deleteteam_action : nba_actions_crud_delete_deleteteam_action,
 	nba_actions_crud_delete_faildeleteteam_action : nba_actions_crud_delete_faildeleteteam_action,
 	nba_actions_crud_delete_successdeleteteam_action : nba_actions_crud_delete_successdeleteteam_action,
@@ -1239,11 +1426,14 @@ module.exports = {
 	nba_actions_crud_update_faileditteam_action : nba_actions_crud_update_faileditteam_action,
 	nba_actions_crud_update_successeditteam_action : nba_actions_crud_update_successeditteam_action,
 	nba_actions_crud_update_updateteam_action : nba_actions_crud_update_updateteam_action,
+	nba_actions_erroraltura_action : nba_actions_erroraltura_action,
 	nba_actions_errordorsal_action : nba_actions_errordorsal_action,
 	nba_actions_errorfechanacimiento_action : nba_actions_errorfechanacimiento_action,
 	nba_actions_errorpeso_action : nba_actions_errorpeso_action,
 	nba_actions_failaddmatchstats_action : nba_actions_failaddmatchstats_action,
 	nba_actions_failaddplayer_action : nba_actions_failaddplayer_action,
+	nba_actions_failcheckfieldsaddplayer_action : nba_actions_failcheckfieldsaddplayer_action,
+	nba_actions_faildeleteplayer_action : nba_actions_faildeleteplayer_action,
 	nba_actions_logout_action : nba_actions_logout_action,
 	nba_actions_logoutmessage_action : nba_actions_logoutmessage_action,
 	nba_actions_menuteam_action : nba_actions_menuteam_action,
@@ -1259,6 +1449,7 @@ module.exports = {
 	nba_actions_sincronizar_action : nba_actions_sincronizar_action,
 	nba_actions_successaddmatchstats_action : nba_actions_successaddmatchstats_action,
 	nba_actions_successaddplayer_action : nba_actions_successaddplayer_action,
+	nba_actions_successdeleteplayer_action : nba_actions_successdeleteplayer_action,
 	nba_globals_appdefinition_version_global : nba_globals_appdefinition_version_global,
 	nba_i18n_i18n_properties : nba_i18n_i18n_properties,
 	nba_images_nba__logo_png : nba_images_nba__logo_png,
@@ -1279,8 +1470,12 @@ module.exports = {
 	nba_rules_appupdatefailure_js : nba_rules_appupdatefailure_js,
 	nba_rules_appupdatesuccess_js : nba_rules_appupdatesuccess_js,
 	nba_rules_checkplayerdata_js : nba_rules_checkplayerdata_js,
+	nba_rules_createfilter_js : nba_rules_createfilter_js,
+	nba_rules_libs_filtercommon_js : nba_rules_libs_filtercommon_js,
 	nba_rules_loadimage_js : nba_rules_loadimage_js,
 	nba_rules_onwillupdate_js : nba_rules_onwillupdate_js,
+	nba_rules_refreshlistplayers_js : nba_rules_refreshlistplayers_js,
+	nba_rules_refreshteamdata_js : nba_rules_refreshteamdata_js,
 	nba_rules_resetappsettingsandlogout_js : nba_rules_resetappsettingsandlogout_js,
 	nba_rules_successaddplayer_js : nba_rules_successaddplayer_js,
 	nba_services_nba_service : nba_services_nba_service,

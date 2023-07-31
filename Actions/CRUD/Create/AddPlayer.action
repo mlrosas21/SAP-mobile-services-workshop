@@ -4,7 +4,7 @@
 		"_Name": "AddPlayerResult"
 	},
 	"OnFailure": "/nba/Actions/FailAddPlayer.action",
-	"OnSuccess": "/nba/Rules/SuccessAddPlayer.js",
+	"OnSuccess": "/nba/Actions/SuccessAddPlayer.action",
 	"Target": {
 		"Service": "/nba/Services/NBA.service",
 		"EntitySet": "JugadorSet"
@@ -15,6 +15,7 @@
 		"Posicion": "#Page:AddPlayer/#Control:FCPosicion/#SelectedValue",
 		"Nombre": "#Page:AddPlayer/#Control:FCNombre/#Value",
 		"Apellido": "#Page:AddPlayer/#Control:FCApellido/#Value",
+		"Altura": "#Control:FCAltura/#Value",
 		"Peso": "#Control:FCPeso/#Value",
 		"FechaDeNacimiento": "#Page:AddPlayer/#Control:DPFechaNacimiento/#Value",
 		"Nacionalidad": "#Page:AddPlayer/#Control:LPNacionalidad/#SelectedValue"

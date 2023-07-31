@@ -48,7 +48,8 @@
 								}
 							],
 							"ImageIsCircular": false,
-							"ImageHasBorder": false
+							"ImageHasBorder": false,
+							"BadgeImage": "/nba/Images/nba-logo.png"
 						},
 						"AvatarGrid": {
 							"Avatars": [],

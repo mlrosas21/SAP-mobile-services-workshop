@@ -5,6 +5,13 @@
 			"_Name": "SectionedTable0",
 			"Sections": [
 				{
+					"Separators": {
+						"TopSectionSeparator": false,
+						"BottomSectionSeparator": true,
+						"HeaderSeparator": true,
+						"FooterSeparator": true,
+						"ControlSeparator": true
+					},
 					"_Type": "Section.Type.ContactCell",
 					"Target": {
 						"Service": "/nba/Services/NBA.service",
@@ -15,18 +22,8 @@
 					"EmptySection": {
 						"FooterVisible": false
 					},
-					"Separators": {
-						"TopSectionSeparator": false,
-						"BottomSectionSeparator": true,
-						"HeaderSeparator": true,
-						"FooterSeparator": true,
-						"ControlSeparator": true
-					},
-					"DataPaging": {
-						"ShowLoadingIndicator": false,
-						"PageSize": 50
-					},
 					"ContactCell": {
+						"Visible": true,
 						"ContextMenu": {
 							"PerformFirstActionWithFullSwipe": true,
 							"Items": []
@@ -35,7 +32,12 @@
 						"Headline": "{Apellido}, {Nombre}",
 						"Subheadline": "{NombreEquipo}",
 						"Description": "Dorsal: {Dorsal} Posición: {Posicion}",
+						"OnPress": "/nba/Actions/NavToPlayerDetail.action",
 						"ActivityItems": []
+					},
+					"DataPaging": {
+						"ShowLoadingIndicator": false,
+						"PageSize": 50
 					}
 				}
 			]
